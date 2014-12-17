@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/738/trunk/pi_tb_description/urdf
+END
+turtlebot_hardware.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/turtlebot_hardware.xacro
+END
+head.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/729/trunk/pi_tb_description/urdf/head.xacro
+END
+pi_turtlebot_laser.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/700/trunk/pi_tb_description/urdf/pi_turtlebot_laser.xacro
+END
+turtlebot.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/turtlebot.xacro
+END
+laser.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/700/trunk/pi_tb_description/urdf/laser.xacro
+END
+pi_turtlebot_laser.urdf
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/700/trunk/pi_tb_description/urdf/pi_turtlebot_laser.urdf
+END
+tb.urdf
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/tb.urdf
+END
+arm_hardware.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/694/trunk/pi_tb_description/urdf/arm_hardware.xacro
+END
+pi_turtlebot.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/pi_turtlebot.xacro
+END
+head_hardware.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/head_hardware.xacro
+END
+pi_turtlebot_head_only.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/738/trunk/pi_tb_description/urdf/pi_turtlebot_head_only.xacro
+END
+arm.xacro
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/630/trunk/pi_tb_description/urdf/arm.xacro
+END
+pi_turtlebot.urdf
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/700/trunk/pi_tb_description/urdf/pi_turtlebot.urdf
+END

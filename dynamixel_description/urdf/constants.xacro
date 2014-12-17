@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="constants">
+  <xacro:property name="M_PI" value="3.14159"/>
+  <xacro:property name="M_SCALE" value="0.001"/>
+  <xacro:property name="F10_HEIGHT" value="0.004"/>
+  <xacro:property name="F4_HEIGHT" value="0.0525"/>
+  <xacro:property name="F3_HEIGHT" value="0.009"/>
+  <xacro:property name="AX12_HEIGHT" value="0.0385"/>
+  <xacro:property name="AX12_WIDTH" value="0.038"/>
+  <xacro:property name="F2_HEIGHT" value="0.0265"/>
+  <xacro:property name="MESH_EXT" value="dae"/>
+  
+ <xacro:property name="AX12_X_CENTER" value="0"/>  
+  <xacro:property name="AX12_Y_CENTER" value="0.020"/>
+  <xacro:property name="AX12_Z_CENTER" value="-0.0135"/>
+  <xacro:property name="AX12_X_SIZE" value="0.032"/>
+  <xacro:property name="AX12_Y_SIZE" value="0.040"/>
+  <xacro:property name="AX12_Z_SIZE" value="0.050"/>
+  
+  <xacro:property name="AX12_VELOCITY" value="0.5"/>
+  <xacro:property name="AX12_EFFORT" value="1000"/> 
+
+  <xacro:property name="F1_X_SIZE" value="0.039"/>
+  <xacro:property name="F1_Y_SIZE" value="0.048"/><!-- fingers front back-->
+  <xacro:property name="F1_Z_SIZE" value="0.034"/> <!-- fingers up and back-->
+   <!-- center of box to hole where joint from ax12 goes-->  
+  <xacro:property name="F1_X_CENTER" value="0.009"/>
+  <xacro:property name="F1_Y_CENTER" value="0.021"/>
+  <xacro:property name="F1_Z_CENTER" value="0.005"/>
+    
+  <xacro:property name="F2_X_SIZE" value="0.024"/>
+  <xacro:property name="F2_Y_SIZE" value="0.048"/><!-- fingers front back-->
+  <xacro:property name="F2_Z_SIZE" value="0.035"/> <!-- fingers up-->
+   <!--from center of box to hole where joint from ax12 goes-->  
+  <xacro:property name="F2_X_CENTER" value="0.000"/>
+  <xacro:property name="F2_Y_CENTER" value="0.021"/>
+  <xacro:property name="F2_Z_CENTER" value="0.0045"/>
+  
+  <xacro:property name="F3_Z_SIZE" value="0.005"/>
+  <xacro:property name="F7_Z_SIZE" value="0.005"/>
+  <xacro:property name="F10_Z_SIZE" value="0.002"/>     
+
+  <xacro:property name="ACM5_X_SIZE" value="0.090"/>
+  <xacro:property name="ACM5_Y_SIZE" value="0.100"/>
+  <xacro:property name="ACM5_Z_SIZE" value="0.032"/>       
+</robot>

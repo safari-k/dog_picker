@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dog_picker">
+  <xacro:include filename="$(find dynamixel_description)/urdf/constants.xacro"/>
+  <xacro:include filename="$(find dynamixel_description)/urdf/AX12.xacro"/>
+  <xacro:include filename="$(find dog_picker_description)/urdf/dog_picker_leg.xacro"/>
+  <!-- negative green is the joint axis in y... -->
+  <!-- z is blue and x is red... -->
+  <link name="base_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0.150"/>
+      <geometry>
+        <box size="${ACM5_X_SIZE} ${ACM5_Y_SIZE} ${ACM5_Z_SIZE}"/>
+      </geometry>
+      <material name="DimWhite">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <joint name="robotis_part_6" type="fixed">
+    <origin xyz="${ACM5_X_SIZE/2} 0 0.150" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="neck_link"/>
+  </joint>
+  <link name="neck_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="${(F1_Z_SIZE + F3_Z_SIZE)/2} 0 ${F1_X_SIZE/2-0.016}"/>
+      <geometry>
+        <box size="${F1_Z_SIZE + F3_Z_SIZE} ${F1_Y_SIZE}  ${F1_X_SIZE} "/>
+      </geometry>
+      <material name="DimWhite">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <xacro:dynamixel_AX12_up parent="neck_link" number="6" x_loc="${F3_Z_SIZE+F1_Z_SIZE/2 +F1_Z_CENTER}" y_loc="${F1_Y_CENTER}" z_loc="${F1_X_SIZE/2-ACM5_Z_SIZE/2+F1_X_CENTER}" r="${M_PI} " p="0 " y="0"/>
+  <xacro:dynamixel_AX12_up parent="dynamixel_AX12_6_link" number="17" x_loc="0" y_loc="${AX12_Y_CENTER}" z_loc="${-AX12_Z_SIZE-AX12_Z_CENTER - F3_Z_SIZE}" r="${-90*M_PI/180}" p="0" y="${90*M_PI/180}"/>
+  <joint name="robotis_part_1" type="fixed">
+    <origin xyz="-0.045 0 0.150" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="butt_link"/>
+  </joint>
+  <link name="butt_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="${-F2_Z_SIZE/2-F3_Z_SIZE} 0 0"/>
+      <geometry>
+        <box size="${F2_Z_SIZE} ${F2_Y_SIZE}  ${F2_X_SIZE} "/>
+      </geometry>
+      <material name="DimWhite">
+        <color rgba="0.9 0.9 0.9 1.0"/>
+      </material>
+    </visual>
+  </link>
+  <xacro:dynamixel_AX12_up parent="butt_link" number="1" x_loc="${-F2_Z_SIZE- F3_Z_SIZE+ F2_Z_CENTER} " y_loc="${-AX12_Y_CENTER}" z_loc="0" r="0" p="${90*M_PI/180}" y="0"/>
+  <xacro:dog_picker_leg_right parent="base_link" dyn1="4" dyn2="16" dyn3="8" x_loc="${ACM5_X_SIZE/2}" y_loc="${-ACM5_Y_SIZE/2-AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>
+  <xacro:dog_picker_leg_right parent="dynamixel_AX12_1_link" dyn1="11" dyn2="13" dyn3="15" x_loc="${F3_Z_SIZE+F10_Z_SIZE +AX12_X_SIZE}" y_loc="${F1_Y_CENTER+AX12_Z_SIZE+AX12_Z_CENTER}" z_loc="${-AX12_Y_SIZE}" r="0" p="${90*M_PI/180}" y="0" back="1"/>
+  <xacro:dog_picker_leg_left parent="base_link" dyn1="5" dyn2="7" dyn3="9" x_loc="${ACM5_X_SIZE/2}" y_loc="${ ACM5_Y_SIZE/2+AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>
+  <xacro:dog_picker_leg_left parent="dynamixel_AX12_1_link" dyn1="10" dyn2="12" dyn3="14" x_loc="${F3_Z_SIZE+F10_Z_SIZE +AX12_X_SIZE}" y_loc="${-F1_Y_CENTER}" z_loc="${-AX12_Y_SIZE}" r="0" p="${90*M_PI/180}" y="0" back="1"/>
+
+</robot>

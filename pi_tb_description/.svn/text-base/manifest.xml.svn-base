@@ -1,0 +1,16 @@
+<package>
+  <description brief="pi_tb_description">
+
+     Modifications of the TurtleBot to include a pan and tilt head.
+
+  </description>
+  <author>Patrick Goebel</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/pi_tb_description</url>
+  <depend package="urdf_parser"/>
+  <depend package="xacro"/>
+  <depend package="turtlebot_description"/>
+</package>
+
+

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dynamixel">
+  <xacro:include filename="$(find dynamixel_description)/urdf/constants.xacro"/>
+  <xacro:macro name="dynamixel_AX12_up" params="parent number x_loc y_loc z_loc r p y">
+    <!---Kinematics for kdl tree and robot_state_publisher -->
+    <joint name="dynamixel_AX12_${number}_joint" type="revolute">
+      <!--origin of whole dynamixel is at the center of the round part visible on the servo which is the joint -->
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${r} ${p} ${y}"/>
+      <!-- negative green is the joint axis... -->
+      <axis xyz="0 -1 0"/>
+      <limit effort="${AX12_EFFORT}" lower="${-150*M_PI/180}" upper="${150*M_PI/180}" velocity="${AX12_VELOCITY}"/>
+      <parent link="${parent}"/>
+      <child link="dynamixel_AX12_${number}_link"/>
+    </joint>
+    <link name="dynamixel_AX12_${number}_link">
+      <!---rviz -->
+      <visual>
+        <!--link origin is a delta from the joint to the center of the servo box-->
+        <origin xyz="0 ${AX12_Y_CENTER} ${AX12_Z_CENTER}" rpy="0 0 0"/>
+        <geometry>
+          <!-- <mesh filename="package://pi_tb_description/meshes/ax12_box.${MESH_EXT}" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/> -->
+          <box size="${AX12_X_SIZE} ${AX12_Y_SIZE} ${AX12_Z_SIZE}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <!---gazebo section needs work http://wiki.ros.org/MeshLab http://en.wikipedia.org/wiki/List_of_moment_of_inertia_tensors   
+      <inertial>
+        <mass value="0.00001" />
+        <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+          iyy="1.0" iyz="0.0"
+          izz="1.0" />
+      </inertial>
+      <collision>
+        <origin xyz="0.0 0.0 -0.0045" rpy="0 0 0" />
+        <geometry>
+          <box size="0.025 0.038 0.009"/>
+        </geometry>
+      </collision>
+-->
+    </link>
+  </xacro:macro>
+  <xacro:macro name="dynamixel_AX12_down" params="child number x_loc y_loc z_loc r p y">
+    <link name="dynamixel_AX12_${number}_link">
+      <!---rviz -->
+      <visual>
+        <!--link origin is a delta from the joint to the center of the servo box-->
+        <origin xyz="0 ${AX12_Y_CENTER} ${AX12_Z_CENTER}" rpy="0 0 0"/>
+        <geometry>
+          <!-- <mesh filename="package://pi_tb_description/meshes/ax12_box.${MESH_EXT}" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/> -->
+          <box size="${AX12_X_SIZE} ${AX12_Y_SIZE} ${AX12_Z_SIZE}"/>
+        </geometry>
+        <material name="Gray">
+          <color rgba="0.1 0.1 0.1 1.0"/>
+        </material>
+      </visual>
+    </link>
+    <!---Kinematics for kdl tree and robot_state_publisher -->
+    <joint name="dynamixel_AX12_${number}_joint" type="revolute">
+      <!--origin of whole dynamixel is at the center of the round part visible on the servo which is the joint -->
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${r} ${p} ${y}"/>
+      <axis xyz="0 -1 0"/>
+      <limit effort="${AX12_EFFORT}" lower="${-150*M_PI/180}" upper="${150*M_PI/180}" velocity="${AX12_VELOCITY}"/>
+      <parent link="dynamixel_AX12_${number}_link"/>
+      <child link="${child}"/>
+    </joint>
+  </xacro:macro>
+</robot>

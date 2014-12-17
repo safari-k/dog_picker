@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="test_dynamixel_chain">
+  <xacro:include filename="$(find dynamixel_description)/urdf/constants.xacro"/>
+  <xacro:include filename="$(find dynamixel_description)/urdf/AX12.xacro"/>
+  <link name="base_link">
+    <visual>
+        <geometry>
+           <box size="0.09 0.1 0.032"/>
+        </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.150"/>
+    </visual>
+  </link>
+
+ <xacro:dynamixel_AX12_up parent="base_link" number="1" x_loc="0.045" y_loc="-0.0135" z_loc="0.1" r="${-90*M_PI/180}" p="${90*M_PI/180}" y="0"/>
+
+  <joint name="robotis_part" type="fixed">
+      <origin xyz="-0.045 -0.0135 0.1" rpy="${-90*M_PI/180} ${90*M_PI/180} 0"/>
+      <parent link="base_link"/>
+      <child link="dynamixel_AX12_2_link"/>
+    </joint>
+
+  <xacro:dynamixel_AX12_down child="foot_link" number="2" x_loc="0" y_loc="0" z_loc="0.05" r="0" p="0" y="0"/>
+ 
+ 
+   <link name="foot_link">
+    <visual>
+        <geometry>
+           <box size="0.06 0.02 0.001"/>
+        </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  
+</robot>
