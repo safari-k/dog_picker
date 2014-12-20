@@ -23,7 +23,7 @@ Panels:
   - Class: rviz/Views
     Expanded:
       - /Current View1
-      - /right side going right1
+      - /right leg detail1
     Name: Views
     Splitter Ratio: 0.5
   - Class: rviz/Time
@@ -57,27 +57,27 @@ Visualization Manager:
       Collision Enabled: false
       Enabled: true
       Links:
-        All Links Enabled: true
+        All Links Enabled: false
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        S-B_7_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        S-B_8_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        S-B_9_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         base_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        calf_link_12:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        calf_link_3:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        calf_link_6:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -86,52 +86,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-        dynamixel_AX12_10_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_11_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_12_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_1_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_2_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_3_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_4_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_5_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_6_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
+          Value: false
         dynamixel_AX12_7_link:
           Alpha: 1
           Show Axes: false
@@ -158,40 +113,22 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        S-B_7_link:
+          Value: true
+        S-B_8_link:
+          Value: false
+        S-B_9_link:
+          Value: false
         base_link:
-          Value: true
-        calf_link_12:
-          Value: true
-        calf_link_3:
-          Value: true
-        calf_link_6:
-          Value: true
+          Value: false
         calf_link_9:
-          Value: true
-        dynamixel_AX12_10_link:
-          Value: true
-        dynamixel_AX12_11_link:
-          Value: true
-        dynamixel_AX12_12_link:
-          Value: true
-        dynamixel_AX12_1_link:
-          Value: true
-        dynamixel_AX12_2_link:
-          Value: true
-        dynamixel_AX12_3_link:
-          Value: true
-        dynamixel_AX12_4_link:
-          Value: true
-        dynamixel_AX12_5_link:
-          Value: true
-        dynamixel_AX12_6_link:
-          Value: true
+          Value: false
         dynamixel_AX12_7_link:
-          Value: true
+          Value: false
         dynamixel_AX12_8_link:
-          Value: true
+          Value: false
         dynamixel_AX12_9_link:
-          Value: true
+          Value: false
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -199,26 +136,14 @@ Visualization Manager:
       Show Names: false
       Tree:
         base_link:
-          dynamixel_AX12_10_link:
-            dynamixel_AX12_11_link:
-              calf_link_12:
-                dynamixel_AX12_12_link:
-                  {}
-          dynamixel_AX12_1_link:
-            dynamixel_AX12_2_link:
-              calf_link_3:
-                dynamixel_AX12_3_link:
-                  {}
-          dynamixel_AX12_4_link:
-            dynamixel_AX12_5_link:
-              calf_link_6:
-                dynamixel_AX12_6_link:
-                  {}
           dynamixel_AX12_7_link:
-            dynamixel_AX12_8_link:
-              calf_link_9:
-                dynamixel_AX12_9_link:
-                  {}
+            S-B_7_link:
+              dynamixel_AX12_8_link:
+                S-B_8_link:
+                  calf_link_9:
+                    S-B_9_link:
+                      dynamixel_AX12_9_link:
+                        {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -245,40 +170,23 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.419095
+      Distance: 0.369804
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0077027
-        Y: 0.0124741
-        Z: 0.117107
+        X: 0.00306469
+        Y: -0.00845325
+        Z: 0.0394869
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.0153984
+      Pitch: 0.340398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.0536
+      Yaw: 0.105388
     Saved:
-      - Class: rviz/Orbit
-        Distance: 0.71098
-        Enable Stereo Rendering:
-          Stereo Eye Separation: 0.06
-          Stereo Focal Distance: 1
-          Swap Stereo Eyes: false
-          Value: false
-        Focal Point:
-          X: 0.11112
-          Y: -0.0157044
-          Z: 4.00178e-11
-        Name: right side going right
-        Near Clip Distance: 0.01
-        Pitch: 0.430398
-        Target Frame: <Fixed Frame>
-        Value: Orbit (rviz)
-        Yaw: 4.81357
       - Class: rviz/Orbit
         Distance: 0.375207
         Enable Stereo Rendering:
@@ -296,6 +204,40 @@ Visualization Manager:
         Target Frame: <Fixed Frame>
         Value: Orbit (rviz)
         Yaw: 4.81357
+      - Class: rviz/Orbit
+        Distance: 0.251329
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.06
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: -0.0077027
+          Y: 0.0124741
+          Z: 0.117107
+        Name: right leg detail
+        Near Clip Distance: 0.01
+        Pitch: -0.00960142
+        Target Frame: <Fixed Frame>
+        Value: Orbit (rviz)
+        Yaw: 5.16864
+      - Class: rviz/Orbit
+        Distance: 0.369804
+        Enable Stereo Rendering:
+          Stereo Eye Separation: 0.06
+          Stereo Focal Distance: 1
+          Swap Stereo Eyes: false
+          Value: false
+        Focal Point:
+          X: 0.00306469
+          Y: -0.00845325
+          Z: 0.0394869
+        Name: front
+        Near Clip Distance: 0.01
+        Pitch: 0.340398
+        Target Frame: <Fixed Frame>
+        Value: Orbit (rviz)
+        Yaw: 0.105388
 Window Geometry:
   Displays:
     collapsed: false
@@ -312,5 +254,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1845
-  X: 59
-  Y: 25
+  X: 58
+  Y: 24

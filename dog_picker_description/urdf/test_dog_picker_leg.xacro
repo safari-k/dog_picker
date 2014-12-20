@@ -16,10 +16,11 @@
       </material>
     </visual>
   </link>
- 
+
   <xacro:dog_picker_leg_right parent="base_link" dyn1="1" dyn2="2" dyn3="3" x_loc=" 0.045" y_loc="${-0.05-AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>
   <xacro:dog_picker_leg_right parent="base_link" dyn1="4" dyn2="5" dyn3="6" x_loc="-0.045" y_loc="${ 0.05+AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="1"/>
-  <xacro:dog_picker_leg_left    parent="base_link" dyn1="7" dyn2="8" dyn3="9" x_loc=" 0.045" y_loc="${ 0.05+AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>
+ 
+  <xacro:dog_picker_leg_left    parent="base_link" dyn1="7" dyn2="8" dyn3="9" x_loc=" 0.045" y_loc="${ 0.05+AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>  
   <xacro:dog_picker_leg_left    parent="base_link" dyn1="10" dyn2="11" dyn3="12" x_loc=" -0.045" y_loc="${-0.05-AX12_Z_CENTER}"  z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="1"/>
 
   
