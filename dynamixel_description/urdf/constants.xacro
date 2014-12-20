@@ -42,5 +42,8 @@
 
   <xacro:property name="ACM5_X_SIZE" value="0.090"/>
   <xacro:property name="ACM5_Y_SIZE" value="0.100"/>
-  <xacro:property name="ACM5_Z_SIZE" value="0.032"/>       
+  <xacro:property name="ACM5_Z_SIZE" value="0.032"/>
+  
+  <xacro:property name="S_B_RADIUS" value="0.004"/>
+
 </robot>

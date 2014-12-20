@@ -1,15 +1,26 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dynamixel">
   <xacro:include filename="$(find dynamixel_description)/urdf/constants.xacro"/>
-  <xacro:macro name="dynamixel_AX12_up" params="parent number x_loc y_loc z_loc r p y">
+  <xacro:macro name="dynamixel_AX12_up" params="number x_loc y_loc z_loc r p y">
     <!---Kinematics for kdl tree and robot_state_publisher -->
+         <link name="S-B_${number}_link">
+        <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+       <geometry>
+          <sphere radius="${S_B_RADIUS}"/>
+        </geometry>
+        <material name="Green">
+          <color rgba="0 0.5 0 1.0"/>
+        </material>
+      </visual>
+    </link>
     <joint name="dynamixel_AX12_${number}_joint" type="revolute">
       <!--origin of whole dynamixel is at the center of the round part visible on the servo which is the joint -->
       <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="${r} ${p} ${y}"/>
       <!-- negative green is the joint axis... -->
       <axis xyz="0 -1 0"/>
       <limit effort="${AX12_EFFORT}" lower="${-150*M_PI/180}" upper="${150*M_PI/180}" velocity="${AX12_VELOCITY}"/>
-      <parent link="${parent}"/>
+      <parent link="S-B_${number}_link"/>
       <child link="dynamixel_AX12_${number}_link"/>
     </joint>
     <link name="dynamixel_AX12_${number}_link">
@@ -67,7 +78,7 @@
         <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
        <geometry>
-          <sphere radius="0.004"/>
+          <sphere radius="${S_B_RADIUS}"/>
         </geometry>
         <material name="Green">
           <color rgba="0 0.5 0 1.0"/>
