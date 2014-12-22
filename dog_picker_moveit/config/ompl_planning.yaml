@@ -21,7 +21,7 @@ planner_configs:
     type: geometric::PRM
   PRMstarkConfigDefault:
     type: geometric::PRMstar
-right_front_leg:
+front_right_leg:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -34,7 +34,7 @@ right_front_leg:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-left_front_leg:
+front_left_leg:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -73,7 +73,7 @@ back_left_leg:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-head_neck:
+back:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
@@ -86,7 +86,46 @@ head_neck:
     - TRRTkConfigDefault
     - PRMkConfigDefault
     - PRMstarkConfigDefault
-back_butt:
+head:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+front_legs:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+back_legs:
+  planner_configs:
+    - SBLkConfigDefault
+    - ESTkConfigDefault
+    - LBKPIECEkConfigDefault
+    - BKPIECEkConfigDefault
+    - KPIECEkConfigDefault
+    - RRTkConfigDefault
+    - RRTConnectkConfigDefault
+    - RRTstarkConfigDefault
+    - TRRTkConfigDefault
+    - PRMkConfigDefault
+    - PRMstarkConfigDefault
+legs:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault
