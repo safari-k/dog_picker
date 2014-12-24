@@ -44,7 +44,22 @@
       <child link="S-B_17_link"/>
     </joint>
   <xacro:dynamixel_AX12_up number="17" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
-
+  <joint name="S1_kinect" type="fixed">
+      <origin xyz="0 ${AX12_Y_SIZE + 0.045} 0" rpy="0 0 0"/>
+      <parent link="dynamixel_AX12_17_link"/>
+      <child link="kinect_link"/>
+    </joint>
+  <link name="kinect_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.300 0.090 0.080"/>
+      </geometry>
+      <material name="Blue">
+        <color rgba="0.0 0.0 0.9 1.0"/>
+      </material>
+    </visual>
+  </link>    
   <joint name="robotis_part_1" type="fixed">
     <origin xyz="-0.045 0 0.150" rpy="0 0 0"/>
     <parent link="base_link"/>
