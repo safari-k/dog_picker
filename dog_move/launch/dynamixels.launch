@@ -32,8 +32,8 @@
         args="--manager=pi_dynamixel_manager
               --port=dynamixel_ax12
               --type=simple
-        head_pan_controller
-        head_tilt_controller"
+        dynamixel_AX12_17_controller
+        dynamixel_AX12_6_controller"
         output="screen" />
         
    <!-- Publish fake wheel states for the TurtleBot -->
