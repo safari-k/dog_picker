@@ -1,0 +1,11 @@
+﻿<launch>
+   <node pkg="dog_move" name="tf_head_tracker" type="tf_head_tracker.py" output="screen">
+      <rosparam>
+         rate: 10
+         pan_threshold: 0.01
+         tilt_threshold: 0.01
+         k_pan: 1.0
+         k_tilt: 0.9
+      </rosparam>
+   </node>
+</launch>
