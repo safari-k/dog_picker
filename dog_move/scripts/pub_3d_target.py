@@ -34,7 +34,7 @@ class Pub3DTarget():
     def __init__(self):
         rospy.init_node('pub_3d_target')
                 
-        rate = rospy.get_param('~rate', 10)
+        rate = rospy.get_param('~rate', 3)
         r = rospy.Rate(rate)
         
         # Remap this frame in the launch file or command line if necessary
@@ -87,8 +87,8 @@ class Pub3DTarget():
         while not rospy.is_shutdown():
             target.point.x = 0.5 + 0.25 * math.sin(theta)
             target.point.y = 0.5 * math.sin(theta)
-            target.point.z = -0.1 + 0.5 * abs(math.sin(theta))
-            theta += 0.1
+            target.point.z = -0.1 + 0.25 * abs(math.sin(theta))
+            theta += 0.05
             target.header.stamp = rospy.Time.now()
             target_pub.publish(target)
             
