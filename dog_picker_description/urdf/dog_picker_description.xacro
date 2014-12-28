@@ -21,7 +21,7 @@
     <parent link="base_link"/>
     <child link="dynamixel_AX12_3_link"/>
   </joint>
-  <xacro:dynamixel_AX12_down number="3" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
+  <xacro:dynamixel_AX12_down number="3"/>
   <joint name="S1_kinect" type="fixed">
       <origin xyz="0 -0.050 0" rpy="0 0 0"/>
       <parent link="S-B_3_link"/>
@@ -60,7 +60,7 @@
       <child link="S-B_1_link"/>
     </joint>
 
-  <xacro:dynamixel_AX12_up number="1" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
+  <xacro:dynamixel_AX12_up number="1"/>
   <xacro:dog_picker_leg_right parent="base_link" dyn1="4" dyn2="16" dyn3="8" x_loc="${ACM5_X_SIZE/2}" y_loc="${-ACM5_Y_SIZE/2-AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>
   <xacro:dog_picker_leg_right parent="dynamixel_AX12_1_link" dyn1="11" dyn2="13" dyn3="15" x_loc="${F3_Z_SIZE+F10_Z_SIZE +AX12_X_SIZE}" y_loc="${F1_Y_CENTER+AX12_Z_SIZE+AX12_Z_CENTER}" z_loc="${-AX12_Y_SIZE}" r="0" p="${90*M_PI/180}" y="0" back="1"/>
   <xacro:dog_picker_leg_left parent="base_link" dyn1="5" dyn2="7" dyn3="9" x_loc="${ACM5_X_SIZE/2}" y_loc="${ ACM5_Y_SIZE/2+AX12_Z_CENTER}" z_loc="${0.150-ACM5_Z_SIZE/2-F3_Z_SIZE-F10_Z_SIZE-AX12_X_SIZE/2}" r="0" p="0 " y="0" back="0"/>

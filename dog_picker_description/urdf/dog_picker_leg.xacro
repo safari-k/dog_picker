@@ -8,14 +8,14 @@
       <parent link="${parent}"/>
       <child link="dynamixel_AX12_${dyn1}_link"/>
     </joint>
-    <xacro:dynamixel_AX12_down number="${dyn1}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0" y="0"/>
+    <xacro:dynamixel_AX12_down number="${dyn1}"/>
     <!-- this fixed joint is really just placing the revolute joint in the next ax12 that way I can just always pass 0 to ax12-->
     <joint name="S1_${dyn1}" type="fixed">
       <origin xyz="${-AX12_Z_SIZE-2*AX12_Z_CENTER} ${-AX12_X_SIZE/2 - F7_Z_SIZE}  ${AX12_Y_CENTER}" rpy="${-90*M_PI/180} 0 ${90*M_PI/180} "/>
       <parent link="S-B_${dyn1}_link"/>
       <child link="dynamixel_AX12_${dyn2}_link"/>
     </joint>
-    <xacro:dynamixel_AX12_down number="${dyn2}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0"  y="0"/>
+    <xacro:dynamixel_AX12_down number="${dyn2}"/>
       <joint name="S1_${dyn2}" type="fixed">
       <origin xyz="0 ${F2_Y_CENTER} ${F2_Z_SIZE-F2_Z_CENTER}" rpy="0 0 0"/>
       <parent link="S-B_${dyn2}_link"/>
@@ -37,7 +37,7 @@
       <parent link="calf_link_${dyn3}"/>
       <child link="S-B_${dyn3}_link"/>
     </joint>    
-    <xacro:dynamixel_AX12_up number="${dyn3}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0" y="0"/>
+    <xacro:dynamixel_AX12_up number="${dyn3}"/>
   </xacro:macro>
   
   
@@ -48,14 +48,14 @@
       <child link="dynamixel_AX12_${dyn1}_link"/>
     </joint>
     
-      <xacro:dynamixel_AX12_down number="${dyn1}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0" y="0"/>
+      <xacro:dynamixel_AX12_down number="${dyn1}"/>
     <!-- this fixed joint is really just placing the revolute joint in the next ax12 that way I can just always pass 0 to ax12-->
     <joint name="S1_${dyn1}" type="fixed">
       <origin xyz="${AX12_Z_SIZE+2*AX12_Z_CENTER} ${-AX12_X_SIZE/2 - F7_Z_SIZE}  ${AX12_Y_CENTER}" rpy="${-90*M_PI/180} 0 ${-90*M_PI/180} "/>
       <parent link="S-B_${dyn1}_link"/>
       <child link="dynamixel_AX12_${dyn2}_link"/>
     </joint>
-    <xacro:dynamixel_AX12_down number="${dyn2}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0"  y="0"/>
+    <xacro:dynamixel_AX12_down number="${dyn2}"/>
       <joint name="S1_${dyn2}" type="fixed">
       <origin xyz="0 ${F2_Y_CENTER} ${F2_Z_SIZE-F2_Z_CENTER}" rpy="0 0 0"/>
       <parent link="S-B_${dyn2}_link"/>
@@ -77,7 +77,7 @@
       <parent link="calf_link_${dyn3}"/>
       <child link="S-B_${dyn3}_link"/>
     </joint>    
-    <xacro:dynamixel_AX12_up number="${dyn3}" x_loc="0" y_loc="0" z_loc="0" r="0" p="0" y="0"/>
+    <xacro:dynamixel_AX12_up number="${dyn3}"/>
   </xacro:macro>  
 </robot>
 
