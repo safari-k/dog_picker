@@ -23,5 +23,5 @@ dynamixel_AX12_6_controller:
     motor:
         id: 6
         init: 512
-        min: 300
-        max: 800
+        min: 473
+        max: 541
