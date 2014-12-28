@@ -16,37 +16,15 @@
       </material>
     </visual>
   </link>
-  <joint name="robotis_part_6" type="fixed">
-    <origin xyz="${ACM5_X_SIZE/2} 0 0.150" rpy="0 0 0"/>
+  <joint name="robotis_part_3" type="fixed">
+    <origin xyz="${ACM5_X_SIZE/2 + AX12_Z_SIZE + AX12_Z_CENTER + 2*F3_Z_SIZE} 0 ${ACM5_Z_SIZE/2 + 0.150}" rpy="${-90*M_PI/180} 0 ${-90*M_PI/180} "/>
     <parent link="base_link"/>
-    <child link="neck_link"/>
+    <child link="dynamixel_AX12_3_link"/>
   </joint>
-  <link name="neck_link">
-    <visual>
-      <origin rpy="0 0 0" xyz="${(F1_Z_SIZE + F3_Z_SIZE)/2} 0 ${F1_X_SIZE/2-0.016}"/>
-      <geometry>
-        <box size="${F1_Z_SIZE + F3_Z_SIZE} ${F1_Y_SIZE}  ${F1_X_SIZE} "/>
-      </geometry>
-      <material name="DimWhite">
-        <color rgba="0.9 0.9 0.9 1.0"/>
-      </material>
-    </visual>
-  </link>
-  <joint name="S1_6" type="fixed">
-      <origin xyz="${F3_Z_SIZE+F1_Z_SIZE/2 +F1_Z_CENTER} ${F1_Y_CENTER} ${F1_X_SIZE/2-ACM5_Z_SIZE/2+F1_X_CENTER}" rpy="${M_PI} 0 0"/>
-      <parent link="neck_link"/>
-      <child link="S-B_6_link"/>
-    </joint>
-  <xacro:dynamixel_AX12_up number="6" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
-  <joint name="S1_17" type="fixed">
-      <origin xyz="0 ${AX12_Y_CENTER} ${-AX12_Z_SIZE-AX12_Z_CENTER - F3_Z_SIZE}" rpy="${-90*M_PI/180} 0 ${90*M_PI/180}"/>
-      <parent link="dynamixel_AX12_6_link"/>
-      <child link="S-B_17_link"/>
-    </joint>
-  <xacro:dynamixel_AX12_up number="17" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
+  <xacro:dynamixel_AX12_down number="3" x_loc="0" y_loc="0" z_loc="0" r="0" p="0 " y="0"/>
   <joint name="S1_kinect" type="fixed">
-      <origin xyz="0 ${AX12_Y_SIZE + 0.045} 0" rpy="0 0 0"/>
-      <parent link="dynamixel_AX12_17_link"/>
+      <origin xyz="0 -0.050 0" rpy="0 0 0"/>
+      <parent link="S-B_3_link"/>
       <child link="kinect_link"/>
     </joint>
   <link name="kinect_link">

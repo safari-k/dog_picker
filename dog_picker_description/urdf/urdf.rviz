@@ -96,12 +96,12 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        S-B_17_link:
+        S-B_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        S-B_1_link:
+        S-B_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -112,11 +112,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         S-B_5_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        S-B_6_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -201,12 +196,12 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        dynamixel_AX12_17_link:
+        dynamixel_AX12_1_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        dynamixel_AX12_1_link:
+        dynamixel_AX12_3_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -217,11 +212,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         dynamixel_AX12_5_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        dynamixel_AX12_6_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -242,11 +232,6 @@ Visualization Manager:
           Show Trail: false
           Value: true
         kinect_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
-        neck_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -263,81 +248,75 @@ Visualization Manager:
       Frames:
         All Enabled: false
         S-B_10_link:
-          Value: false
+          Value: true
         S-B_11_link:
-          Value: false
+          Value: true
         S-B_12_link:
-          Value: false
+          Value: true
         S-B_13_link:
-          Value: false
+          Value: true
         S-B_14_link:
-          Value: false
+          Value: true
         S-B_15_link:
-          Value: false
+          Value: true
         S-B_16_link:
-          Value: false
-        S-B_17_link:
-          Value: false
+          Value: true
         S-B_1_link:
-          Value: false
+          Value: true
+        S-B_3_link:
+          Value: true
         S-B_4_link:
-          Value: false
+          Value: true
         S-B_5_link:
-          Value: false
-        S-B_6_link:
-          Value: false
+          Value: true
         S-B_7_link:
-          Value: false
+          Value: true
         S-B_8_link:
-          Value: false
+          Value: true
         S-B_9_link:
-          Value: false
+          Value: true
         base_link:
-          Value: false
+          Value: true
         butt_link:
-          Value: false
+          Value: true
         calf_link_14:
-          Value: false
+          Value: true
         calf_link_15:
-          Value: false
+          Value: true
         calf_link_8:
-          Value: false
+          Value: true
         calf_link_9:
-          Value: false
+          Value: true
         dynamixel_AX12_10_link:
-          Value: false
+          Value: true
         dynamixel_AX12_11_link:
-          Value: false
+          Value: true
         dynamixel_AX12_12_link:
-          Value: false
+          Value: true
         dynamixel_AX12_13_link:
-          Value: false
+          Value: true
         dynamixel_AX12_14_link:
-          Value: false
+          Value: true
         dynamixel_AX12_15_link:
-          Value: false
+          Value: true
         dynamixel_AX12_16_link:
-          Value: false
-        dynamixel_AX12_17_link:
-          Value: false
+          Value: true
         dynamixel_AX12_1_link:
-          Value: false
+          Value: true
+        dynamixel_AX12_3_link:
+          Value: true
         dynamixel_AX12_4_link:
-          Value: false
+          Value: true
         dynamixel_AX12_5_link:
-          Value: false
-        dynamixel_AX12_6_link:
-          Value: false
+          Value: true
         dynamixel_AX12_7_link:
-          Value: false
+          Value: true
         dynamixel_AX12_8_link:
-          Value: false
+          Value: true
         dynamixel_AX12_9_link:
-          Value: false
+          Value: true
         kinect_link:
-          Value: false
-        neck_link:
-          Value: false
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -364,6 +343,10 @@ Visualization Manager:
                           S-B_15_link:
                             dynamixel_AX12_15_link:
                               {}
+          dynamixel_AX12_3_link:
+            S-B_3_link:
+              kinect_link:
+                {}
           dynamixel_AX12_4_link:
             S-B_4_link:
               dynamixel_AX12_16_link:
@@ -380,13 +363,6 @@ Visualization Manager:
                     S-B_9_link:
                       dynamixel_AX12_9_link:
                         {}
-          neck_link:
-            S-B_6_link:
-              dynamixel_AX12_6_link:
-                S-B_17_link:
-                  dynamixel_AX12_17_link:
-                    kinect_link:
-                      {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -413,7 +389,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.709057
+      Distance: 0.533394
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -425,10 +401,10 @@ Visualization Manager:
         Z: 0.120791
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.370398
+      Pitch: 0.250398
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 5.33857
+      Yaw: 5.41357
     Saved:
       - Class: rviz/Orbit
         Distance: 0.375207
