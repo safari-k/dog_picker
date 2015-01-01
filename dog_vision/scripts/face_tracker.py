@@ -26,15 +26,13 @@
       
 """
 
-import roslib
-roslib.load_manifest('pi_face_tracker')
 import rospy
 import cv
 import sys
 from sensor_msgs.msg import RegionOfInterest, Image
 from math import sqrt, isnan
-from ros2opencv import ROS2OpenCV
-from pi_face_tracker.srv import *
+from ros2opencv.ros2opencv import ROS2OpenCV
+from face_tracker.srv import *
 
 class PatchTracker(ROS2OpenCV):
     def __init__(self, node_name):
@@ -637,7 +635,7 @@ def main(args):
     print help_message
     
     """ Fire up the Face Tracker node """
-    PT = PatchTracker("pi_face_tracker")
+    PT = PatchTracker("face_tracker")
 
     try:
       rospy.spin()
