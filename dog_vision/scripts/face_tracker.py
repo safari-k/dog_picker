@@ -32,7 +32,7 @@ import sys
 from sensor_msgs.msg import RegionOfInterest, Image
 from math import sqrt, isnan
 from ros2opencv.ros2opencv import ROS2OpenCV
-from face_tracker.srv import *
+from dog_vision.srv import *
 
 class PatchTracker(ROS2OpenCV):
     def __init__(self, node_name):
@@ -74,9 +74,9 @@ class PatchTracker(ROS2OpenCV):
         self.small_image = None
         
         """ Set up the face detection parameters """
-        self.cascade_frontal_alt = rospy.get_param("~cascade_frontal_alt", "")
-        self.cascade_frontal_alt2 = rospy.get_param("~cascade_frontal_alt2", "")
-        self.cascade_profile = rospy.get_param("~cascade_profile", "")
+        self.cascade_frontal_alt = rospy.get_param("~cascade_frontal_alt", "/home/keith/Documents/src/ros/dog_picker/src/dog_vision/params/haarcascade_frontalface_alt.xml")
+        self.cascade_frontal_alt2 = rospy.get_param("~cascade_frontal_alt2", "/home/keith/Documents/src/ros/dog_picker/src/dog_vision/params/haarcascade_frontalface_alt2.xml")
+        self.cascade_profile = rospy.get_param("~cascade_profile", "/home/keith/Documents/src/ros/dog_picker/src/dog_vision/params/haarcascade_profileface.xml")
         
         self.cascade_frontal_alt = cv.Load(self.cascade_frontal_alt)
         self.cascade_frontal_alt2 = cv.Load(self.cascade_frontal_alt2)
@@ -113,10 +113,10 @@ class PatchTracker(ROS2OpenCV):
         rospy.Service('~set_roi', SetROI, self.set_roi_callback)
                 
         """ Wait until the image topics are ready before starting """
-        rospy.wait_for_message(self.input_rgb_image, Image)
+        #rospy.wait_for_message(self.input_rgb_image, Image)
         
-        if self.use_depth_for_detection or self.use_depth_for_tracking:
-            rospy.wait_for_message(self.input_depth_image, Image)
+        #if self.use_depth_for_detection or self.use_depth_for_tracking:
+            #rospy.wait_for_message(self.input_depth_image, Image)
         
     def process_image(self, cv_image):
         #self.frame_count = self.frame_count + 1
