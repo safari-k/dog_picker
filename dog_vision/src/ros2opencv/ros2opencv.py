@@ -166,7 +166,7 @@ class ROS2OpenCV:
         
         """ If the result is a greyscale image, convert to 3-channel for display purposes """
         if processed_image.shape[2] == 1:
-            cv2.cvtColor(processed_image, cv2.CV_GRAY2BGR, self.processed_image)
+            self.processed_image = cv2.cvtColor(processed_image, cv2.COLOR_GRAY2BGR)
         else:
             self.processed_image = processed_image.copy()
         
@@ -283,7 +283,7 @@ class ROS2OpenCV:
             self.grey = np.zeros(self.image_size, np.uint8)
             
         """ Convert color input image to grayscale """
-        cv2.cvtColor(cv_image, self.grey, cv2.CV_BGR2GRAY)
+        self.grey = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
         cv2.equalizeHist(self.grey, self.grey)
         
         # Since we aren't applying any filters in this base class, set the ROI to the selected region, if any.

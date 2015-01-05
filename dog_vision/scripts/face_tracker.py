@@ -27,12 +27,14 @@
 """
 
 import rospy
-import cv
+import cv2
+import numpy as np
 import sys
 from sensor_msgs.msg import RegionOfInterest, Image
-from math import sqrt, isnan
+from math import isnan
 from ros2opencv.ros2opencv import ROS2OpenCV
-from dog_vision.srv import *
+from dog_vision.srv._KeyCommand import KeyCommandRequest,KeyCommandResponse,KeyCommand
+from dog_vision.srv._SetROI import SetROIRequest,SetROIResponse,SetROI
 
 class PatchTracker(ROS2OpenCV):
     def __init__(self, node_name):
@@ -78,15 +80,15 @@ class PatchTracker(ROS2OpenCV):
         self.cascade_frontal_alt2 = rospy.get_param("~cascade_frontal_alt2", "/home/keith/Documents/src/ros/dog_picker/src/dog_vision/params/haarcascade_frontalface_alt2.xml")
         self.cascade_profile = rospy.get_param("~cascade_profile", "/home/keith/Documents/src/ros/dog_picker/src/dog_vision/params/haarcascade_profileface.xml")
         
-        self.cascade_frontal_alt = cv.Load(self.cascade_frontal_alt)
-        self.cascade_frontal_alt2 = cv.Load(self.cascade_frontal_alt2)
-        self.cascade_profile = cv.Load(self.cascade_profile)
+        self.cascade_frontal_alt = cv2.CascadeClassifier(self.cascade_frontal_alt)
+        self.cascade_frontal_alt2 = cv2.CascadeClassifier(self.cascade_frontal_alt2)
+        self.cascade_profile = cv2.CascadeClassifier(self.cascade_profile)
 
         self.min_size = (20, 20)
         self.image_scale = 2
         self.haar_scale = 1.5
         self.min_neighbors = 1
-        self.haar_flags = cv.CV_HAAR_DO_CANNY_PRUNING
+        self.haar_flags = 0 #cv.HAAR_DO_CANNY_PRUNING
         
         self.grey = None
         self.pyramid = None
@@ -113,10 +115,10 @@ class PatchTracker(ROS2OpenCV):
         rospy.Service('~set_roi', SetROI, self.set_roi_callback)
                 
         """ Wait until the image topics are ready before starting """
-        #rospy.wait_for_message(self.input_rgb_image, Image)
+        rospy.wait_for_message(self.input_rgb_image, Image)
         
-        #if self.use_depth_for_detection or self.use_depth_for_tracking:
-            #rospy.wait_for_message(self.input_depth_image, Image)
+        if self.use_depth_for_detection or self.use_depth_for_tracking:
+            rospy.wait_for_message(self.input_depth_image, Image)
         
     def process_image(self, cv_image):
         #self.frame_count = self.frame_count + 1
@@ -160,47 +162,44 @@ class PatchTracker(ROS2OpenCV):
     def detect_face(self, cv_image):
         if self.grey is None:
             """ Allocate temporary images """      
-            self.grey = cv.CreateImage(self.image_size, 8, 1)
+            self.grey = np.zeros(self.image_size, np.uint8)
             
         if self.small_image is None:
-            self.small_image = cv.CreateImage((cv.Round(self.image_size[0] / self.image_scale),
-                       cv.Round(self.image_size[1] / self.image_scale)), 8, 1)
+            self.small_image = np.zeros((int(round(self.image_size[0]/self.image_scale)),int(round(self.image_size[1]/self.image_scale)),self.image_size[2]), np.uint8)
     
         """ Convert color input image to grayscale """
-        cv.CvtColor(cv_image, self.grey, cv.CV_BGR2GRAY)
+        self.grey = cv2.cvtColor(cv_image,cv2.COLOR_BGR2GRAY)
         
         """ Equalize the histogram to reduce lighting effects. """
-        cv.EqualizeHist(self.grey, self.grey)
+        cv2.equalizeHist(self.grey, self.grey)
     
         """ Scale input image for faster processing """
-        cv.Resize(self.grey, self.small_image, cv.CV_INTER_LINEAR)
+        self.small_image = cv2.resize(self.grey,(self.small_image.shape[0],self.small_image.shape[1]))
     
         """ First check one of the frontal templates """
         if self.cascade_frontal_alt:
-            faces = cv.HaarDetectObjects(self.small_image, self.cascade_frontal_alt, cv.CreateMemStorage(0),
-                                          self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)
-                                         
-        """ If that fails, check the profile template """
-        if not faces:
-            if self.cascade_profile:
-                faces = cv.HaarDetectObjects(self.small_image, self.cascade_profile, cv.CreateMemStorage(0),
-                                             self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)
-
-            if not faces:
-                """ If that fails, check a different frontal profile """
-                if self.cascade_frontal_alt2:
-                    faces = cv.HaarDetectObjects(self.small_image, self.cascade_frontal_alt2, cv.CreateMemStorage(0),
-                                         self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)
+            faces = self.cascade_frontal_alt.detectMultiScale(self.small_image, self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)                              
             
-        if not faces:
+        """ If that fails, check the profile template """
+        if faces is None:
+            if self.cascade_profile:
+                faces = self.cascade_profile.detectMultiScale(self.small_image, self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)                              
+
+            if faces is None:
+                """ If that fails, check a different frontal profile """
+                faces = self.cascade_frontal_alt2.detectMultiScale(self.small_image, self.haar_scale, self.min_neighbors, self.haar_flags, self.min_size)                              
+
+            
+        if faces is None:
             if self.show_text:
-                hscale = 0.4 * self.image_size[0] / 160. + 0.1
+                #hscale = 0.4 * self.image_size[0] / 160. + 0.1
                 vscale = 0.4 * self.image_size[1] / 120. + 0.1
-                text_font = cv.InitFont(cv.CV_FONT_VECTOR0, hscale, vscale, 0, 1, 8)
-                cv.PutText(self.marker_image, "LOST FACE!", (50, int(self.image_size[1] * 0.9)), text_font, cv.RGB(255, 255, 0))
+                #text_font = cv.InitFont(cv.CV_FONT_VECTOR0, hscale, vscale, 0, 1, 8)
+                cv2.putText(self.marker_image, "LOST FACE!", (50, int(self.image_size[1] * 0.9)), cv2.FONT_HERSHEY_PLAIN, vscale, (255, 255, 0))
+ 
             return None
                 
-        for ((x, y, w, h), n) in faces:
+        for (x, y, w, h) in faces:
             """ The input to cv.HaarDetectObjects was resized, so scale the 
                 bounding box of each face and convert it to two CvPoints """
             pt1 = (int(x * self.image_scale), int(y * self.image_scale))
@@ -215,8 +214,9 @@ class PatchTracker(ROS2OpenCV):
                 for x in range(pt1[0], pt2[0]):
                     for y in range(pt1[1], pt2[1]):
                         try:
-                            face_distance = cv.Get2D(self.depth_image, y, x)
-                            z = face_distance[0]
+                            #face_distance = cv.Get2D(self.depth_image, y, x)
+                            #z = face_distance[0]
+                            z = self.depth_image[x,y]
                         except:
                             continue
                         if isnan(z):
@@ -249,28 +249,28 @@ class PatchTracker(ROS2OpenCV):
         feature_box = None
         
         """ Initialize intermediate images if necessary """
-        if not self.pyramid:
-            self.grey = cv.CreateImage(cv.GetSize (cv_image), 8, 1)
-            self.prev_grey = cv.CreateImage(cv.GetSize (cv_image), 8, 1)
-            self.pyramid = cv.CreateImage(cv.GetSize (cv_image), 8, 1)
-            self.prev_pyramid = cv.CreateImage(cv.GetSize (cv_image), 8, 1)
+        if self.pyramid is None:
+            self.grey = np.zeros(cv_image.shape, np.uint8)
+            self.prev_grey = np.zeros(cv_image.shape, np.uint8)
+            self.pyramid = np.zeros(cv_image.shape, np.uint8)
+            self.prev_pyramid = np.zeros(cv_image.shape, np.uint8)
             self.features = []
             
         """ Create a grey version of the image """
-        cv.CvtColor(cv_image, self.grey, cv.CV_BGR2GRAY)
+        self.grey = cv2.cvtColor(cv_image, cv2.COLOR_BGR2GRAY)
         
         """ Equalize the histogram to reduce lighting effects """
-        cv.EqualizeHist(self.grey, self.grey)
+        cv2.equalizeHist(self.grey, self.grey)
             
         if self.track_box and self.features != []:
             """ We have feature points, so track and display them """
 
             """ Calculate the optical flow """
-            self.features, status, track_error = cv.CalcOpticalFlowPyrLK(
+            self.features, status, track_error = cv2.calcOpticalFlowPyrLK(
                 self.prev_grey, self.grey, self.prev_pyramid, self.pyramid,
                 self.features,
                 (self.win_size, self.win_size), 3,
-                (cv.CV_TERMCRIT_ITER|cv.CV_TERMCRIT_EPS, 20, 0.01),
+                (cv2.TERM_CRITERIA_MAX_ITER|cv2.TERM_CRITERIA_EPS, 20, 0.01),
                 self.flags)
 
             """ Keep only high status points """
@@ -280,11 +280,9 @@ class PatchTracker(ROS2OpenCV):
             """ Get the initial features to track """
                     
             """ Create a mask image to be used to select the tracked points """
-            mask = cv.CreateImage(cv.GetSize(cv_image), 8, 1) 
-            
             """ Begin with all black pixels """
-            cv.Zero(mask)
-
+            mask = np.zeros((cv_image.shape[0],cv_image.shape[1],1), np.uint8) 
+            
             """ Get the coordinates and dimensions of the track box """
             try:
                 x,y,w,h = self.track_box
@@ -305,25 +303,26 @@ class PatchTracker(ROS2OpenCV):
                 roi_box = ((center_x, center_y), (w, h), 0)
                 
                 """ Create a filled white ellipse within the track_box to define the ROI. """
-                cv.EllipseBox(mask, roi_box, cv.CV_RGB(255,255, 255), cv.CV_FILLED)      
+                cv2.ellipse(mask, roi_box, (255,255, 255), cv2.cv.CV_FILLED)      
             else:
                 """ For manually selected regions, just use a rectangle """
                 pt1 = (x, y)
                 pt2 = (x + w, y + h)
-                cv.Rectangle(mask, pt1, pt2, cv.CV_RGB(255,255, 255), cv.CV_FILLED)
+                cv2.rectangle(mask, pt1, pt2, (255,255, 255), cv2.cv.CV_FILLED)
             
             """ Create the temporary scratchpad images """
-            eig = cv.CreateImage (cv.GetSize(self.grey), 32, 1)
-            temp = cv.CreateImage (cv.GetSize(self.grey), 32, 1)
+            #eig = np.zeros(self.grey.shape, np.float32) 
+            #temp = np.zeros(self.grey.shape, np.float32) 
 
             if self.feature_type == 0:
                 """ Find keypoints to track using Good Features to Track """
-                self.features = cv.GoodFeaturesToTrack(self.grey, eig, temp, self.max_count,
-                    self.quality, self.good_feature_distance, mask=mask, blockSize=self.block_size, useHarris=self.use_harris, k=0.04)
-            
+                self.features = cv2.goodFeaturesToTrack(image = self.grey, maxCorners = self.max_count, qualityLevel = self.quality, minDistance = self.good_feature_distance,
+                                mask=mask, blockSize=self.block_size, useHarrisDetector=self.use_harris, k=0.04)            
             elif self.feature_type == 1:
                 """ Get the new features using SURF """
-                (surf_features, descriptors) = cv.ExtractSURF(self.grey, mask, cv.CreateMemStorage(0), (0, self.surf_hessian_quality, 3, 1))
+                #(surf_features, descriptors) = cv.ExtractSURF(self.grey, mask, cv.CreateMemStorage(0), (0, self.surf_hessian_quality, 3, 1))
+                surf = cv2.SURF(self.surf_hessian_quality, 3, 1, 0)
+                surf_features = surf.detect(self.grey, mask)
                 for feature in surf_features:
                     self.features.append(feature[0])
             
@@ -340,25 +339,14 @@ class PatchTracker(ROS2OpenCV):
         if len(self.features) > 0:
             """ The FitEllipse2 function below requires us to convert the feature array
                 into a CvMat matrix """
-            try:
-                self.feature_matrix = cv.CreateMat(1, len(self.features), cv.CV_32SC2)
-            except:
-                pass
-                        
+            self.feature_matrix = np.array([[np.float32(kp.pt[0]), np.float32(kp.pt[1])] for kp in self.features])
+            
             """ Draw the points as green circles and add them to the features matrix """
-            i = 0
-            for the_point in self.features:
-                if self.show_features:
-                    cv.Circle(self.marker_image, (int(the_point[0]), int(the_point[1])), 2, (0, 255, 0, 0), cv.CV_FILLED, 8, 0)
-                try:
-                    cv.Set2D(self.feature_matrix, 0, i, (int(the_point[0]), int(the_point[1])))
-                except:
-                    pass
-                i = i + 1
-    
+            cv2.drawKeypoints(self.marker_image,self.features,None,(0,255,0),4)                
+        
             """ Draw the best fit ellipse around the feature points """
             if len(self.features) > 6:
-                feature_box = cv.FitEllipse2(self.feature_matrix)
+                feature_box = cv2.fitEllipse(self.feature_matrix)
             else:
                 feature_box = None
             
@@ -397,10 +385,8 @@ class PatchTracker(ROS2OpenCV):
         """ Look for any new features around the current feature cloud """
         
         """ Create the ROI mask"""
-        roi = cv.CreateImage(cv.GetSize(cv_image), 8, 1) 
-        
+        roi = np.zeros((cv_image.shape[0],cv_image.shape[1],1), np.uint8) 
         """ Begin with all black pixels """
-        cv.Zero(roi)
         
         """ Get the coordinates and dimensions of the current track box """
         try:
@@ -416,21 +402,24 @@ class PatchTracker(ROS2OpenCV):
         roi_box = ((x,y), (w,h), a)
         
         """ Create a filled white ellipse within the track_box to define the ROI. """
-        cv.EllipseBox(roi, roi_box, cv.CV_RGB(255,255, 255), cv.CV_FILLED)
+        cv2.ellipse(roi, roi_box, (255,255, 255), cv2.cv.CV_FILLED)
         
         """ Create the temporary scratchpad images """
-        eig = cv.CreateImage (cv.GetSize(self.grey), 32, 1)
-        temp = cv.CreateImage (cv.GetSize(self.grey), 32, 1)
+        #eig = np.zeros(self.grey.shape, np.float32) 
+        #temp = np.zeros(self.grey.shape, np.float32)
         
         if self.feature_type == 0:
             """ Get the new features using Good Features to Track """
-            features = cv.GoodFeaturesToTrack(self.grey, eig, temp, self.max_count,
-            self.quality, self.good_feature_distance, mask=roi, blockSize=3, useHarris=0, k=0.04)
-        
+            features = cv2.goodFeaturesToTrack(image = self.grey, maxCorners = self.max_count, qualityLevel = self.quality, minDistance = self.good_feature_distance,
+                                mask=roi, blockSize=3, useHarrisDetector=0, k=0.04)  
+           
+         
         elif self.feature_type == 1:
             """ Get the new features using SURF """
             features = []
-            (surf_features, descriptors) = cv.ExtractSURF(self.grey, roi, cv.CreateMemStorage(0), (0, self.surf_hessian_quality, 3, 1))
+            #(surf_features, descriptors) = cv.ExtractSURF(self.grey, roi, cv.CreateMemStorage(0), (0, self.surf_hessian_quality, 3, 1))
+            surf = cv2.SURF(self.surf_hessian_quality, 3, 1, 0)
+            surf_features = surf.detect(self.grey, roi)
             for feature in surf_features:
                 features.append(feature[0])
                 
@@ -462,7 +451,7 @@ class PatchTracker(ROS2OpenCV):
         n_xy = n_z = 0
         sum_x = sum_y = sum_z = 0
         
-        (cols, rows) = cv.GetSize(self.depth_image)
+        (cols, rows, unused) = self.depth_image.shape
         
         for point in self.features:
             sum_x = sum_x + point[0]
@@ -470,8 +459,8 @@ class PatchTracker(ROS2OpenCV):
             n_xy += 1
             
             try:
-                z = cv.Get2D(self.depth_image, min(rows - 1, int(point[1])), min(cols - 1, int(point[0])))
-            except cv.error:
+                z = self.depth_image[min(rows - 1, int(point[1])), min(cols - 1, int(point[0]))]
+            except cv2.error:
                 rospy.loginfo("Get2D Index Error: " + str(int(point[1])) + " x " + str(int(point[0])))
                 continue
 
@@ -515,7 +504,7 @@ class PatchTracker(ROS2OpenCV):
             if not self.depth_image:
                 return ((0, 0, 0), 0, 0, -1)
             else:
-                (cols, rows) = cv.GetSize(self.depth_image)
+                (cols, rows, unused) = self.depth_image.shape
         
         """ If there are no features left to track, start over """
         if n_xy == 0:
@@ -561,7 +550,7 @@ class PatchTracker(ROS2OpenCV):
         if self.use_depth_for_tracking:
             for point in self.features:
                 try:
-                    z = cv.Get2D(self.depth_image, min(rows - 1, int(point[1])), min(cols - 1, int(point[0])))
+                    z = self.depth_image[min(rows - 1, int(point[1])), min(cols - 1, int(point[0]))]
                 except:
                     continue
 
@@ -579,7 +568,7 @@ class PatchTracker(ROS2OpenCV):
                 n_z = 0
                 for point in self.features:
                     try:
-                        z = cv.Get2D(self.depth_image, min(rows - 1, int(point[1])), min(cols - 1, int(point[0])))
+                        z = self.depth_image[min(rows - 1, int(point[1])), min(cols - 1, int(point[0]))]
                         sse = sse + (z[0] - mean_z) * (z[0] - mean_z)
                         n_z += 1
                     except:
@@ -592,7 +581,7 @@ class PatchTracker(ROS2OpenCV):
                          values can jump dramatically at object boundaries  """
                     for point in features_z:
                         try:
-                            z = cv.Get2D(self.depth_image, min(rows - 1, int(point[1])), min(cols - 1, int(point[0])))
+                            z = self.depth_image[min(rows - 1, int(point[1])), min(cols - 1, int(point[0]))]
                         except:
                             continue
                         try:
@@ -641,7 +630,7 @@ def main(args):
       rospy.spin()
     except KeyboardInterrupt:
       print "Shutting down face tracker node."
-      cv.DestroyAllWindows()
+      cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     main(sys.argv)

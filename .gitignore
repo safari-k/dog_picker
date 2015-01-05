@@ -1,2 +1,4 @@
 /.rosinstall
 /.rosinstall.bak
+/pi_vision/
+/rosbridge/
