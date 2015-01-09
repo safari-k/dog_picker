@@ -1,39 +1,29 @@
-﻿<launch>
-  <arg name="auto_face_tracking" default="False" />
-  
+﻿<launch>  
   <node pkg="dog_vision" name="face_tracker" type="face_tracker.py" output="screen">
--    <remap from="/input_rgb_image" to="/camera/rgb/image_color" />
--    <remap from="/input_depth_image" to="/camera/depth/image" />
--    <remap from="output_image" to="/pi_face_tracker/image" />
 
-    <param name="auto_face_tracking" value="$(arg auto_face_tracking)" />
-        
+    <remap from="/input_rgb_image" to="/camera/rgb/image_color" />
+    <remap from="/input_depth_image" to="/camera/depth/image_raw" />
+
+
     <rosparam>
-      use_haar_only: False
-      use_depth_for_detection: True
-      use_depth_for_tracking: True
-      auto_min_features: True
-      min_features: 20
-      abs_min_features: 6
-      good_feature_distance: 8
-      add_feature_distance: 10
-      std_err_xy: 2.5
-      pct_err_z: 0.42
-      max_mse: 100000
-      show_text: True
-      show_features: True
-      fov_width: 1.094
-      fov_height: 1.094
-      max_face_size: 0.28
-      expand_roi: 1.02
-      flip_image: False
-      feature_type: 0 <!-- 0 = Good Features To Track, 1 = SURF -->
-      surf_hessian_quality: 100
+       show_text: True
+       gf_maxCorners: 200
+       gf_qualityLevel: 0.02
+       gf_minDistance: 7
+       gf_blockSize: 10
+       gf_useHarrisDetector: True
+       gf_k: 0.04
+       haar_scaleFactor: 1.3
+       haar_minNeighbors: 3
+       haar_minSize: 30
+       haar_maxSize: 150
+       feature_size: 1
+       show_text: True
     </rosparam>
     
-  	<param name="cascade_frontal_alt" value="$(find dog_vision)/params/haarcascade_frontalface_alt.xml" />
-   	<param name="cascade_frontal_alt2" value="$(find dog_vision)/params/haarcascade_frontalface_alt2.xml" />
-  	<param name="cascade_profile" value="$(find dog_vision)/params/haarcascade_profileface.xml" />
+   	<param name="cascade_1" value="$(find dog_vision)/params/haarcascade_frontalface_alt2.xml" />
+  	<param name="cascade_2" value="$(find dog_vision)/params/haarcascade_frontalface_alt.xml" />
+  	<param name="cascade_3" value="$(find dog_vision)/params/haarcascade_profileface.xml" />
 
   </node>
 </launch>

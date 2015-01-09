@@ -89,7 +89,7 @@ class LKTracker(GoodFeatures):
         self.prev_grey = self.grey
                 
         return cv_image               
-    @profile                 
+              
     def track_keypoints(self, grey, prev_grey):
         # We are tracking points between the previous frame and the
         # current frame
