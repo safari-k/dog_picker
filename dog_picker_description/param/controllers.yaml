@@ -1,0 +1,37 @@
+controller_list:
+  - name: front_right_leg_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - dynamixel_AX12_4_controller
+      - dynamixel_AX12_16_controller
+      - dynamixel_AX12_8_controller
+  - name: front_left_leg_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - dynamixel_AX12_5_controller
+      - dynamixel_AX12_7_controller
+      - dynamixel_AX12_9_controller
+  - name: back_right_leg_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - dynamixel_AX12_10_controller
+      - dynamixel_AX12_12_controller
+      - dynamixel_AX12_14_controller
+  - name: back_left_leg_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - dynamixel_AX12_11_controller
+      - dynamixel_AX12_13_controller
+      - dynamixel_AX12_15_controller
+
+
+
+ 
