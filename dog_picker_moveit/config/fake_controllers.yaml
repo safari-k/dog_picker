@@ -22,20 +22,12 @@ controller_list:
   - name: fake_back_controller
     joints:
       - dynamixel_AX12_1_joint
-  - name: fake_head_controller
+  - name: fake_neck_controller
     joints:
-      - dynamixel_AX12_6_joint
-      - dynamixel_AX12_17_joint
-  - name: fake_front_legs_controller
-    joints:
-      - dynamixel_AX12_4_joint
-      - dynamixel_AX12_16_joint
-      - dynamixel_AX12_8_joint
-      - dynamixel_AX12_5_joint
-      - dynamixel_AX12_7_joint
-      - dynamixel_AX12_9_joint
+      - dynamixel_AX12_3_joint
   - name: fake_back_legs_controller
     joints:
+      - world_joint
       - dynamixel_AX12_1_joint
       - dynamixel_AX12_10_joint
       - dynamixel_AX12_12_joint
@@ -43,8 +35,18 @@ controller_list:
       - dynamixel_AX12_11_joint
       - dynamixel_AX12_13_joint
       - dynamixel_AX12_15_joint
+  - name: fake_front_legs_controller
+    joints:
+      - world_joint
+      - dynamixel_AX12_4_joint
+      - dynamixel_AX12_16_joint
+      - dynamixel_AX12_8_joint
+      - dynamixel_AX12_5_joint
+      - dynamixel_AX12_7_joint
+      - dynamixel_AX12_9_joint
   - name: fake_legs_controller
     joints:
+      - world_joint
       - dynamixel_AX12_1_joint
       - dynamixel_AX12_10_joint
       - dynamixel_AX12_12_joint
