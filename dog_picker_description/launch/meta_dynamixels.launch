@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<launch>	
+
+    <!-- Load joint controller configuration from YAML file to parameter server -->
+    <rosparam file="$(find dog_picker_description)/param/meta_params.yaml" command="load"/>
+
+<!-- Start joint trajectory action controller -->
+<node name="trajectory_controller_spawner_front_right" pkg="dynamixel_controllers" type="controller_spawner.py"
+      args="--manager=dynamixel_manager
+            --type=meta
+            front_right_leg_controller
+            dynamixel_AX12_4_controller
+            dynamixel_AX12_16_controller
+            dynamixel_AX12_8_controller"
+      output="screen"/>
+  <node name="trajectory_controller_spawner_front_left" pkg="dynamixel_controllers" type="controller_spawner.py"
+      args="--manager=dynamixel_manager
+            --type=meta
+            front_left_leg_controller
+            dynamixel_AX12_5_controller
+            dynamixel_AX12_7_controller
+            dynamixel_AX12_9_controller"
+      output="screen"/>
+       <node name="trajectory_controller_spawner_back_right" pkg="dynamixel_controllers" type="controller_spawner.py"
+      args="--manager=dynamixel_manager
+            --type=meta
+            back_right_leg_controller
+            dynamixel_AX12_10_controller
+            dynamixel_AX12_12_controller
+            dynamixel_AX12_14_controller"
+      output="screen"/>
+<node name="trajectory_controller_spawner_back_left" pkg="dynamixel_controllers" type="controller_spawner.py"
+      args="--manager=dynamixel_manager
+            --type=meta
+            back_left_leg_controller
+            dynamixel_AX12_11_controller
+            dynamixel_AX12_13_controller
+            dynamixel_AX12_15_controller"
+      output="screen"/>      
+   </launch>
