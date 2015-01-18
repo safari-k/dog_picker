@@ -48,7 +48,6 @@
         dynamixel_AX12_7_controller
         dynamixel_AX12_9_controller"
         output="screen" />
-        
 
    <!-- Start the Dynamixel Joint States Publisher -->
    <node name="dynamixel_joint_states_publisher" pkg="dog_move" type="dynamixel_joint_state_publisher.py" output="screen" />
@@ -57,5 +56,5 @@
    <node pkg="dog_move" type="relax_all_servos.py" name="relax_all_servos" />
   
    <!-- Publish a static transform between the robot base and the world frame -->
-   <node pkg="tf" type="static_transform_publisher" name="world_base_broadcaster" args="0 0 0 0 0 0 /world /base_link 100" />
+   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 /world_frame /base_link 100" />
 </launch>
