@@ -38,10 +38,9 @@
 import sys
 from optparse import OptionParser
 
-import rospy
-
 from dynamixel_driver import dynamixel_io
 from dynamixel_driver.dynamixel_const import *
+import time
 
 def print_data(values):
     ''' Takes a dictionary with all the motor values and does a formatted print.
@@ -72,6 +71,33 @@ def print_data(values):
         Moving ------------------ %(moving)s
 ''' %values
 
+def move_one_goal(position):
+    global exception
+    exception = None
+    
+    dxl_io.set_position_and_speed(motor_id, position, 16)
+    values ={'moving':"True"}
+    while(values['moving']=="True" and exception is None):
+        values = dxl_io.get_feedback(motor_id)
+        angles = dxl_io.get_angle_limits(motor_id)
+        model = dxl_io.get_model_number(motor_id)
+        firmware = dxl_io.get_firmware_version(motor_id)
+        values['model'] = '%s (firmware version: %d)' % (DXL_MODEL_TO_PARAMS[model]['name'], firmware)
+        values['degree_symbol'] = u"\u00B0"
+        values['min'] = angles['min']
+        values['max'] = angles['max']
+        values['voltage'] = values['voltage']
+        values['moving'] = str(values['moving'])
+        if angles['max'] == 0 and angles['min'] == 0:
+            values['freespin'] = True
+        else:
+            values['freespin'] = False
+        print_data(values)
+        time.sleep(0.5)
+            
+    return values['position']
+
+
 if __name__ == '__main__':
     usage_msg = 'Usage: %prog [options] IDs'
     desc_msg = 'Prints the current status of specified Dynamixel servo motors.'
@@ -100,30 +126,30 @@ if __name__ == '__main__':
     else:
         responses = 0
         print 'Pinging motors:'
-        for motor_id in motor_ids:
-            motor_id = int(motor_id)
-            print '%d ...' % motor_id,
-            p = dxl_io.ping(motor_id)
-            if p:
-                responses += 1
-                values = dxl_io.get_feedback(motor_id)
-                angles = dxl_io.get_angle_limits(motor_id)
-                model = dxl_io.get_model_number(motor_id)
-                firmware = dxl_io.get_firmware_version(motor_id)
-                values['model'] = '%s (firmware version: %d)' % (DXL_MODEL_TO_PARAMS[model]['name'], firmware)
-                values['degree_symbol'] = u"\u00B0"
-                values['min'] = angles['min']
-                values['max'] = angles['max']
-                values['voltage'] = values['voltage']
-                values['moving'] = str(values['moving'])
-                print 'done'
-                if angles['max'] == 0 and angles['min'] == 0:
-                    values['freespin'] = True
+        #for motor_id in motor_ids:
+        motor_id = 16    
+        motor_id = int(motor_id)
+        print '%d ...' % motor_id,
+        p = dxl_io.ping(motor_id)
+        if p:
+            values = dxl_io.get_feedback(motor_id)
+            position = values['position'] #starting at "0" is 512...             
+            responses += 1
+            continue_steps = 1
+            stuck = 0
+            while(continue_steps):
+                next_position = move_one_goal(position)
+                movedby = position - next_position
+                if abs(movedby) < 3:
+                    stuck = stuck + 1
+                if stuck <= 3:
+                    position = next_position + 16
                 else:
-                    values['freespin'] = False
-                print_data(values)
-            else:
-                print 'error'
-        if responses == 0:
-            print 'ERROR: None of the specified motors responded. Make sure to specify the correct baudrate.'
+                    continue_steps = 0
+            print 'max position is %d' % position
+            
+        else:
+            print 'error'
+    if responses == 0:
+        print 'ERROR: None of the specified motors responded. Make sure to specify the correct baudrate.'
 
