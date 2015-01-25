@@ -5,7 +5,7 @@
 'dynamixel_AX12_4_joint','dynamixel_AX12_16_joint','dynamixel_AX12_8_joint',
 'dynamixel_AX12_5_joint','dynamixel_AX12_7_joint','dynamixel_AX12_9_joint']
 
-
+        
 dynamixel_AX12_1_controller:
     controller:
         package: dynamixel_controllers
@@ -16,9 +16,9 @@ dynamixel_AX12_1_controller:
     motor:
         id: 1
         init: 512
-        min: 0
-        max: 1024
-
+        min: 391
+        max: 845      
+        
 dynamixel_AX12_10_controller:
     controller:
         package: dynamixel_controllers
@@ -29,9 +29,9 @@ dynamixel_AX12_10_controller:
     motor:
         id: 10
         init: 512
-        min: 0
-        max: 1024
-
+        min: 398
+        max: 1007      
+        
 dynamixel_AX12_12_controller:
     controller:
         package: dynamixel_controllers
@@ -42,9 +42,9 @@ dynamixel_AX12_12_controller:
     motor:
         id: 12
         init: 512
-        min: 0
-        max: 1024
-
+        min: 176
+        max: 694      
+        
 dynamixel_AX12_14_controller:
     controller:
         package: dynamixel_controllers
@@ -55,9 +55,9 @@ dynamixel_AX12_14_controller:
     motor:
         id: 14
         init: 512
-        min: 0
-        max: 1024
-
+        min: 180
+        max: 845      
+        
 dynamixel_AX12_11_controller:
     controller:
         package: dynamixel_controllers
@@ -68,9 +68,9 @@ dynamixel_AX12_11_controller:
     motor:
         id: 11
         init: 512
-        min: 0
-        max: 1024
-
+        min: 582
+        max: 884      
+        
 dynamixel_AX12_13_controller:
     controller:
         package: dynamixel_controllers
@@ -81,9 +81,9 @@ dynamixel_AX12_13_controller:
     motor:
         id: 13
         init: 512
-        min: 0
-        max: 1024
-
+        min: 325
+        max: 842      
+        
 dynamixel_AX12_15_controller:
     controller:
         package: dynamixel_controllers
@@ -94,9 +94,9 @@ dynamixel_AX12_15_controller:
     motor:
         id: 15
         init: 512
-        min: 0
-        max: 1024
-
+        min: 173
+        max: 851      
+        
 dynamixel_AX12_3_controller:
     controller:
         package: dynamixel_controllers
@@ -108,8 +108,8 @@ dynamixel_AX12_3_controller:
         id: 3
         init: 512
         min: 0
-        max: 1024
-
+        max: 1024      
+        
 dynamixel_AX12_4_controller:
     controller:
         package: dynamixel_controllers
@@ -120,9 +120,9 @@ dynamixel_AX12_4_controller:
     motor:
         id: 4
         init: 512
-        min: 0
-        max: 1024
-
+        min: 16
+        max: 631      
+        
 dynamixel_AX12_16_controller:
     controller:
         package: dynamixel_controllers
@@ -133,9 +133,9 @@ dynamixel_AX12_16_controller:
     motor:
         id: 16
         init: 512
-        min: 0
-        max: 1024
-
+        min: 255
+        max: 849      
+        
 dynamixel_AX12_8_controller:
     controller:
         package: dynamixel_controllers
@@ -146,9 +146,9 @@ dynamixel_AX12_8_controller:
     motor:
         id: 8
         init: 512
-        min: 0
-        max: 1024
-
+        min: 172
+        max: 844      
+        
 dynamixel_AX12_5_controller:
     controller:
         package: dynamixel_controllers
@@ -159,9 +159,9 @@ dynamixel_AX12_5_controller:
     motor:
         id: 5
         init: 512
-        min: 0
-        max: 1024
-
+        min: 357
+        max: 1007      
+        
 dynamixel_AX12_7_controller:
     controller:
         package: dynamixel_controllers
@@ -172,9 +172,9 @@ dynamixel_AX12_7_controller:
     motor:
         id: 7
         init: 512
-        min: 0
-        max: 1024
-
+        min: 174
+        max: 750      
+        
 dynamixel_AX12_9_controller:
     controller:
         package: dynamixel_controllers
@@ -185,8 +185,8 @@ dynamixel_AX12_9_controller:
     motor:
         id: 9
         init: 512
-        min: 0
-        max: 1024
+        min: 174
+        max: 844      
 
 
 
