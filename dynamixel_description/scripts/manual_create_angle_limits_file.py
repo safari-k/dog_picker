@@ -59,19 +59,8 @@ dynamixel_AX12_%(motor_id)d_controller:
         max: %(max)d      
 ''' %values)
     print '''        
-dynamixel_AX12_%(motor_id)d_controller:
-    controller:
-        package: dynamixel_controllers
-        module: joint_position_controller
-        type: JointPositionController
-    joint_name: dynamixel_AX12_%(motor_id)d_joint
-    joint_speed: 2.0
-    motor:
-        id: %(motor_id)d
-        init: %(init)d
-        min: %(min)d
-        max: %(max)d      
-''' %values)
+%(motor_id)d : %(min)d %(init)d %(max)d     
+''' %values
 
 if __name__ == '__main__':
     usage_msg = 'Usage: %prog [options] IDs'
