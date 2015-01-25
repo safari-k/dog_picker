@@ -36,5 +36,23 @@
             dynamixel_AX12_11_controller
             dynamixel_AX12_13_controller
             dynamixel_AX12_15_controller"
-      output="screen"/>      
+      output="screen"/>
+<node name="trajectory_controller_spawner_legs" pkg="dynamixel_controllers" type="controller_spawner.py"
+      args="--manager=dynamixel_manager
+            --type=meta
+            legs_controller
+            dynamixel_AX12_1_controller
+            dynamixel_AX12_4_controller
+            dynamixel_AX12_16_controller
+            dynamixel_AX12_8_controller
+            dynamixel_AX12_5_controller
+            dynamixel_AX12_7_controller
+            dynamixel_AX12_9_controller
+            dynamixel_AX12_10_controller
+            dynamixel_AX12_12_controller
+            dynamixel_AX12_14_controller
+            dynamixel_AX12_11_controller
+            dynamixel_AX12_13_controller
+            dynamixel_AX12_15_controller"
+       output="screen"/>       
    </launch>

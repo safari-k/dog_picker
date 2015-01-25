@@ -74,3 +74,52 @@ back_left_leg_controller:
        goal: 0.04
        trajectory: 0.04
 
+legs_controller:
+   controller:
+       package: dynamixel_controllers
+       module: joint_trajectory_action_controller
+       type: JointTrajectoryActionController
+   joint_trajectory_action_node:
+       min_velocity: 0.25
+       constraints:
+           goal_time: 0.1
+   dynamixel_AX12_1_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_4_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_16_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_8_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_5_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_7_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_9_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_10_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_12_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_14_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_11_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_13_controller:
+       goal: 0.04
+       trajectory: 0.04
+   dynamixel_AX12_15_controller:
+       goal: 0.04
+       trajectory: 0.04
+

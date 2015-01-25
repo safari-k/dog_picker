@@ -32,6 +32,23 @@ controller_list:
       - dynamixel_AX12_13_joint
       - dynamixel_AX12_15_joint
 
-
+  - name: legs_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - dynamixel_AX12_1_joint
+      - dynamixel_AX12_4_joint
+      - dynamixel_AX12_16_joint
+      - dynamixel_AX12_8_joint
+      - dynamixel_AX12_5_joint
+      - dynamixel_AX12_7_joint
+      - dynamixel_AX12_9_joint
+      - dynamixel_AX12_10_joint
+      - dynamixel_AX12_12_joint
+      - dynamixel_AX12_14_joint
+      - dynamixel_AX12_11_joint
+      - dynamixel_AX12_13_joint
+      - dynamixel_AX12_15_joint
 
  
