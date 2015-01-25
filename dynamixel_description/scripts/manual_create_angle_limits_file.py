@@ -105,11 +105,13 @@ if __name__ == '__main__':
                 print 'Rotate to a maximum'
                 variable = raw_input('Press enter when finished')
                 values = dxl_io.get_feedback(motor_id)
-                position1 = values['position']   
+                position1 = values['position']
+                print position1
                 print 'Rotate to other maximum'
                 variable = raw_input('Press enter when finished')
                 values = dxl_io.get_feedback(motor_id)
                 position2 = values['position']
+                print position2
      
                 #setup values dictionary with results           
                 values = {}
