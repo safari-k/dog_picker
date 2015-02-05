@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+   <Robot name="dog_foot" file="front_right_leg.dae">
+       <Manipulator name="front_right_foot">
+           <base>base_link</base>
+           <effector>dynamixel_AX12_8_link</effector>
+           <joints></joints>
+           <closingdirection>-1 1</closingdirection>
+           <direction>1 0 0</direction>
+           <translation>0.054 0 0</translation>           
+        </Manipulator>
+    </Robot>
