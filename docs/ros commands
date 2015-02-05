@@ -1,0 +1,56 @@
+#make a workspace which can contain many packages and other stuff
+mkdir catkin_ws && cd catkin_ws 
+# init blank stuff in src?
+wstool init src
+#run make just to get the bash enviroment set up.
+catkin_make 
+source devel/setup.bash 
+
+#now add other repos/packages 
+roscd; cd ../src 
+# for every repo_name... need to do this. from https://github.com/ros/rosdistro/blob/master/hydro/distribution.yaml
+#--verison is to set the github always to a version..?
+wstool set repo_name --git http://github.com/org/repo_name.git --version=hydro-devel 
+#or just update for them all at the same time
+wstool update repo_name
+
+#packages used from robot.wpi ros debian install
+#dynamixel_motor only one required on desktop
+wstool set dynamixel_motor --git https://github.com/arebgun/dynamixel_motor.git --version=master
+
+#common_msgs
+wstool set common_msgs --git 
+#control_msgs
+#actionlib
+#rosbag_migration_rule
+
+#make to actually compile all the code
+catkin_make
+roslaunch dynamixel_tutorials controller_manager.launch
+
+#create an empty package which depends on dynamixel_motor
+roscd; cd ../src
+catkin_create_pkg dog_picker dynamixel_motor
+
+# config = yaml, launch= launch, scripts = python nodes and scripts,  src = python libs
+mkdir config launch scripts src
+
+#need to add ftdi_sio driver to clanton image from http://repo.opkg.net/galileo/clanton/
+
+
+#run vision stuff
+roslaunch dog_vision openni_node.launch
+
+roslaunch dog_vision face_tracker_kinect.launch
+
+
+#run robot with moveit
+roslaunch dog_picker_description dynamixels.launch
+#should be able to test/run servos through cmdline
+#rostopic pub -1 /dynamixel_AX12_16_controller/command std_msgs/Float64 -- 0.6
+roslaunch dog_picker_description meta_dynamixels.launch
+
+roslaunch dog_picker_moveit move_group.launch
+roslaunch dog_picker_moveit moveit_rviz.launch
+
+

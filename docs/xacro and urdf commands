@@ -1,0 +1,12 @@
+#run xacro to check a model by hand
+rosrun xacro xacro.py model.xacro > model.urdf 
+#check xml syntax of urdf
+check_urdf test.urdf
+#example of find on the shell
+rosrun xacro xacro.py `rospack find dynamixel_description`/urdf/test_dynamixel_chain.xacro > test.urdf
+
+rosrun xacro xacro.py `rospack find dog_picker_description`/urdf/test_dog_picker_leg.xacro > test.urdf
+
+#launch file which does it all
+roslaunch dynamixel_description test_visual_urdf.launch
+
