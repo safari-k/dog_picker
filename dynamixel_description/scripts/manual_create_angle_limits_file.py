@@ -64,7 +64,7 @@ dynamixel_AX12_%(motor_id)d_controller:
 
 if __name__ == '__main__':
     usage_msg = 'Usage: %prog [options] IDs'
-    desc_msg = 'Prints the current status of specified Dynamixel servo motors.'
+    desc_msg = 'Manually physically move joints to maximum and minimum then prints the values as a yaml file.'
     epi_msg = 'Example: %s --port=/dev/ttyUSB1 --baud=1000000 --init=0 --safe=16 1 2 3 4 5' % sys.argv[0]
     
     parser = OptionParser(usage=usage_msg, description=desc_msg, epilog=epi_msg)
