@@ -131,6 +131,11 @@ int main(int argc, char* argv[])
 	    n.param("initialized",b, false);
         ros::spinOnce();
     }
+    ros::Time time = ros::Time::now();
+    //Wait a duration of 5 second.
+    ros::Duration d = ros::Duration(5, 0);
+    d.sleep();
+
 	pub_imu = n.advertise<sensor_msgs::Imu>("imu", 15);
 	pub_tilt_angle = n.advertise<std_msgs::Float64>("cur_tilt_angle", 15);
 	pub_tilt_status = n.advertise<std_msgs::UInt8>("cur_tilt_status", 15);
