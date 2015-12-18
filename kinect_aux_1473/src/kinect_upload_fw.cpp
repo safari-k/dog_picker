@@ -37,6 +37,7 @@
 #include <libusb.h>
 
 #include "endian.h"
+#include "ros/ros.h"
 
 static libusb_device_handle *dev;
 static unsigned int seq;
@@ -131,9 +132,15 @@ static int get_reply(void) {
 }
 
 int main(int argc, char** argv) {
+    ros::init(argc, argv, "kinect_upload_fw");
+    ros::NodeHandle n;
+    bool fw_loaded = false;
+
 	char default_filename[] = "audios.bin";
 	char* filename = default_filename;
 	int res = 0;
+	int current_configuration = 0;
+	int transferred = 0;
 
 	if (argc >= 2) {
 		filename = argv[1];
@@ -155,7 +162,6 @@ int main(int argc, char** argv) {
 		goto fail_libusb_open;
 	}
 
-	int current_configuration = 0;
 	libusb_get_configuration(dev, &current_configuration);
 	if (current_configuration != 1)
 		libusb_set_configuration(dev, 1);
@@ -180,8 +186,6 @@ int main(int argc, char** argv) {
 
 	LOG("About to send: ");
 	dump_bl_cmd(cmd);
-
-	int transferred = 0;
 
 	res = libusb_bulk_transfer(dev, 1, (unsigned char*)&cmd, sizeof(cmd), &transferred, 0);
 	if (res != 0 || transferred != sizeof(cmd)) {
@@ -249,11 +253,19 @@ int main(int argc, char** argv) {
 	res = get_reply();
 	seq++;
 	// Now the device reenumerates.
+	fw_loaded = true;
+
 
 cleanup:
 	libusb_close(dev);
 fail_libusb_open:
 	libusb_exit(NULL);
 	fclose(fw);
+
+    if (ros::ok()) {
+        n.setParam("initialized", fw_loaded);
+        ros::spinOnce();
+    }
+
 	return res;
 }

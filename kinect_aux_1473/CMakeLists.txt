@@ -116,7 +116,7 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(kinect_upload_fw src/kinect_upload_fw.c)
+add_executable(kinect_upload_fw src/kinect_upload_fw.cpp)
 add_executable(kinect_aux_1473_node src/kinect_aux_1473.cpp)
 
 ## Add cmake target dependencies of the executable/library
