@@ -1,18 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(kinect_aux_1473)
 
-find_library(LIBFREENECT_LIBRARIES
-             NAMES freenect
-             HINTS /usr/lib/ /usr/x86_64-linux-gnu/
-             PATH_SUFFIXES lib
-	     NO_SYSTEM_ENVIRONMENT_PATH
-             NO_CMAKE_SYSTEM_PATH
-             NO_CMAKE_ENVIRONMENT_PATH
-             NO_CMAKE_PATH
-)
-message(STATUS ${LIBFREENECT_INCLUDEDIR})
-message(STATUS ${LIBFREENECT_LIBRARIES})
-
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -20,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   sensor_msgs
   std_msgs
+  roslaunch
 )
 
 ## System dependencies are found with CMake's conventions
@@ -33,29 +22,6 @@ find_library(LIBUSB_LIBRARIES
              PATH_SUFFIXES lib)
 message(STATUS ${LIBUSB_INCLUDEDIR})
 message(STATUS ${LIBUSB_LIBRARIES})
-
-find_library(LIBFREENECT_LIBRARIES
-             NAMES freenect
-             PATHS /usr/lib/ /usr/x86_64-linux-gnu/
-             PATH_SUFFIXES lib
-	     NO_DEFUALT_PATH
-	     NO_SYSTEM_ENVIRONMENT_PATH
-             NO_CMAKE_SYSTEM_PATH
-             NO_CMAKE_ENVIRONMENT_PATH
-             NO_CMAKE_PATH
-)
-message(STATUS ${LIBFREENECT_INCLUDEDIR})
-message(STATUS ${LIBFREENECT_LIBRARIES})
-
-find_library(LIBFREENECT_SYNC_LIBRARIES
-             NAMES freenect_sync
-             PATHS /usr/lib/ /usr/x86_64-linux-gnu/
-             PATH_SUFFIXES lib
-	     NO_DEFUALT_PATH
-	     NO_SYSTEM_ENVIRONMENT_PATH
-)
-message(STATUS ${LIBFREENECT_SYNC_INCLUDEDIR})
-message(STATUS ${LIBFREENECT_SYNC_LIBRARIES})
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -112,6 +78,9 @@ message(STATUS ${LIBFREENECT_SYNC_LIBRARIES})
 #   DEPENDENCIES
 #   sensor_msgs#   std_msgs
 # )
+
+## check the launch file
+roslaunch_add_file_check(./launch/kinect_aux_1473.launch)
 
 ###################################
 ## catkin specific configuration ##
@@ -196,11 +165,10 @@ target_link_libraries(kinect_aux_1473_node
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+install(FILES
+   ./config/audios.bin
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
 
 #############
 ## Testing ##

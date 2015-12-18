@@ -1,0 +1,5 @@
+<launch>
+  <group ns="kinect_aux">
+    <node pkg="kinect_aux_1473" type="kinect_upload_fw" name="upload_fw" args="$(find kinect_aux_1473)/config/audios.bin" output="screen" />
+  </group>
+</launch>
