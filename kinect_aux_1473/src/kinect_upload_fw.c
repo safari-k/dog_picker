@@ -131,11 +131,11 @@ static int get_reply(void) {
 }
 
 int main(int argc, char** argv) {
-	char default_filename[] = "firmware.bin";
+	char default_filename[] = "audios.bin";
 	char* filename = default_filename;
 	int res = 0;
 
-	if (argc == 2) {
+	if (argc >= 2) {
 		filename = argv[1];
 	}
 
