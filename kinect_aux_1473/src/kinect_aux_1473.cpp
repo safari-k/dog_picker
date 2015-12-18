@@ -122,7 +122,15 @@ int main(int argc, char* argv[])
 	*/
 	ros::init(argc, argv, "kinect_aux_1473");
 	ros::NodeHandle n;	
-	
+
+	while( !n.hasParam("initialized") ){
+        ros::spinOnce();
+    }
+    bool b = false;
+	while( !b ){
+	    n.param("initialized",b, false);
+        ros::spinOnce();
+    }
 	pub_imu = n.advertise<sensor_msgs::Imu>("imu", 15);
 	pub_tilt_angle = n.advertise<std_msgs::Float64>("cur_tilt_angle", 15);
 	pub_tilt_status = n.advertise<std_msgs::UInt8>("cur_tilt_status", 15);
