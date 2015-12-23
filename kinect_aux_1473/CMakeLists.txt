@@ -80,7 +80,8 @@ message(STATUS ${LIBUSB_LIBRARIES})
 # )
 
 ## check the launch file
-roslaunch_add_file_check(./launch/kinect_aux_1473.launch)
+roslaunch_add_file_check(./launch/upload_fw.launch)
+roslaunch_add_file_check(./launch/imu_freenect_sync.launch)
 
 ###################################
 ## catkin specific configuration ##
@@ -118,6 +119,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(kinect_upload_fw src/kinect_upload_fw.cpp)
 add_executable(kinect_aux_1473_node src/kinect_aux_1473.cpp)
+add_executable(freenect_aux_1473 src/freenect_aux_1473.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -135,6 +137,12 @@ target_link_libraries(kinect_aux_1473_node
    # force specific directory because libfreenect in ros is too old
    /usr/local/lib/libfreenect.so
    /usr/local/lib/libfreenect_sync.so
+)
+target_link_libraries(freenect_aux_1473
+   ${catkin_LIBRARIES}
+   ${LIBUSB_LIBRARIES}
+   # force specific directory because libfreenect in ros is too old
+   /usr/local/lib/libfreenect.so
 )
 #############
 ## Install ##
