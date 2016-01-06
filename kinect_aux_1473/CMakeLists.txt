@@ -107,8 +107,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
   ${LIBUSB_INCLUDEDIR}
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -131,18 +131,18 @@ target_link_libraries(kinect_upload_fw
    ${LIBUSB_LIBRARIES}
  )
 target_link_libraries(kinect_aux_1473_node
-   ${catkin_LIBRARIES}
    ${LIBUSB_LIBRARIES}
    #${LIBFREENECT_LIBRARIES}
    # force specific directory because libfreenect in ros is too old
    /usr/local/lib/libfreenect.so
    /usr/local/lib/libfreenect_sync.so
+   ${catkin_LIBRARIES}
 )
 target_link_libraries(freenect_aux_1473
-   ${catkin_LIBRARIES}
    ${LIBUSB_LIBRARIES}
    # force specific directory because libfreenect in ros is too old
    /usr/local/lib/libfreenect.so
+   ${catkin_LIBRARIES}
 )
 #############
 ## Install ##
