@@ -119,7 +119,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(kinect_upload_fw src/kinect_upload_fw.cpp)
 add_executable(kinect_aux_1473_node src/kinect_aux_1473.cpp)
-add_executable(freenect_aux_1473 src/freenect_aux_1473.cpp)
+add_executable(freenect_aux_1473 src/freenect_aux_1473.cpp src/loader.c src/usb_libusb10.c)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -139,10 +139,10 @@ target_link_libraries(kinect_aux_1473_node
    ${catkin_LIBRARIES}
 )
 target_link_libraries(freenect_aux_1473
+   ${catkin_LIBRARIES}
    ${LIBUSB_LIBRARIES}
    # force specific directory because libfreenect in ros is too old
    /usr/local/lib/libfreenect.so
-   ${catkin_LIBRARIES}
 )
 #############
 ## Install ##
