@@ -130,6 +130,7 @@ target_link_libraries(kinect_upload_fw
    ${catkin_LIBRARIES}
    ${LIBUSB_LIBRARIES}
  )
+
 target_link_libraries(kinect_aux_1473_node
    ${LIBUSB_LIBRARIES}
    #${LIBFREENECT_LIBRARIES}
@@ -138,6 +139,7 @@ target_link_libraries(kinect_aux_1473_node
    /usr/local/lib/libfreenect_sync.so
    ${catkin_LIBRARIES}
 )
+
 target_link_libraries(freenect_aux_1473
    ${catkin_LIBRARIES}
    ${LIBUSB_LIBRARIES}
