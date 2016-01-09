@@ -388,7 +388,7 @@ FN_INTERNAL int fnusb_open_subdevices(freenect_device *dev, int index)
 								}
 								else
 								{
-									fnusb_set_led_alt(audioHandle, ctx, LED_GREEN);
+									//fnusb_set_led_alt(audioHandle, ctx, LED_GREEN);
 									libusb_release_interface(audioHandle, 0);
 								}
 								libusb_close(audioHandle);
