@@ -363,13 +363,119 @@ void fn_log(freenect_context *ctx, freenect_loglevel level, const char *fmt, ...
 }
 
 
+
+// in kinect 1473 the motor/accelerometer is connected to the audio
+class RosFreenectAudioNode {
+  public:
+    RosFreenectAudioNode() {
+        timeout = { 1, 0 };
+
+        int ret = freenect_init(&ctx, 0);
+        if(ret < 0) {
+            ROS_ERROR_STREAM("No valid Audio/Motor device found\n");
+            libusb_exit(0);
+        }
+        freenect_set_log_level(ctx, LL_SPEW );
+        ROS_DEBUG("Got context\n");
+        freenect_select_subdevices(ctx, static_cast<freenect_device_flags> (FREENECT_DEVICE_AUDIO));
+        ret = freenect_open_audiodevice(ctx, &dev, 0);
+        if(ret < 0) {
+            ROS_ERROR_STREAM("Unable to open Audio/Motor device\n");
+            libusb_exit(0);
+        }
+        ROS_INFO("Got device\n");
+    }
+    ~RosFreenectAudioNode(){
+        libusb_exit(0);
+    }
+    void getAccelerometers(double* x, double* y, double* z) {
+        freenect_get_mks_accel(state, x, y, z);
+    }
+    double getTiltDegs() {
+        return freenect_get_tilt_degs(state);
+    }
+    void publishState()
+    {
+        freenect_raw_tilt_state *state = 0;
+        double dx, dy, dz;
+        //static timeval timeout = { 1, 0 };
+
+        freenect_update_tilt_state(dev);
+        state = freenect_get_tilt_state(dev);
+        freenect_process_events_timeout(ctx,&timeout);
+        freenect_get_mks_accel(state, &dx, &dy, &dz);
+
+        // publish IMU
+        sensor_msgs::Imu imu_msg;
+        if (pub_imu.getNumSubscribers() > 0)
+        {
+            imu_msg.header.stamp = ros::Time::now();
+            imu_msg.linear_acceleration.x = dx;
+            imu_msg.linear_acceleration.y = dy;
+            imu_msg.linear_acceleration.z = dz;
+            imu_msg.linear_acceleration_covariance[0] = imu_msg.linear_acceleration_covariance[4]
+                = imu_msg.linear_acceleration_covariance[8] = 0.01; // @todo - what should these be?
+            imu_msg.angular_velocity_covariance[0] = -1; // indicates angular velocity not provided
+            imu_msg.orientation_covariance[0] = -1; // indicates orientation not provided
+            pub_imu.publish(imu_msg);
+        }
+        // publish tilt angle and status
+        if (pub_tilt_angle.getNumSubscribers() > 0)
+        {
+            std_msgs::Float64 tilt_angle_msg;
+            tilt_angle_msg.data = state->tilt_angle;
+            pub_tilt_angle.publish(tilt_angle_msg);
+        }
+        if (pub_tilt_status.getNumSubscribers() > 0)
+        {
+            std_msgs::UInt8 tilt_status_msg;
+            tilt_status_msg.data = state->tilt_status;
+            pub_tilt_status.publish(tilt_status_msg);
+        }
+    }
+
+
+    void setTiltAngle(const std_msgs::Float64 angleMsg)
+    {
+        int angle(angleMsg.data);
+        angle = (angle<MIN_TILT_ANGLE) ? MIN_TILT_ANGLE : ((angle>MAX_TILT_ANGLE) ? MAX_TILT_ANGLE : angle);
+        int ret = freenect_set_tilt_degs(dev, (double) angle);
+        if (ret != 0)
+        {
+            ROS_ERROR_STREAM("Error in setting tilt angle, freenect_sync_set_tilt_degs returned " << ret);
+            ros::shutdown();
+        }
+    }
+
+    void setLedOption(const std_msgs::UInt16 optionMsg)
+    {
+        const uint16_t option(optionMsg.data);
+        freenect_led_options led = (freenect_led_options) ((uint16_t)option % 6); // explicit cast
+        int ret = freenect_set_led(dev, led);
+        // Set the LEDs to one of the possible states
+        if (ret!= 0)
+        {
+            ROS_ERROR_STREAM("Error in setting LED options, freenect_sync_set_led returned " << ret);
+            ros::shutdown();
+        }
+    }
+
+  protected:
+  private:
+    freenect_context *ctx;
+    freenect_device* dev;
+    freenect_tilt_status_code m_code;
+    freenect_raw_tilt_state *state;
+    timeval timeout;
+};
+
 int main(int argc, char* argv[])
 {
 
-	//ros::init(argc, argv, "kinect_aux_1473");
-	//ros::NodeHandle n;
+	ros::init(argc, argv, "kinect_aux_1473");
+	ros::NodeHandle n;
 
-    freenect_context *ctx;
+/*    freenect_context *ctx;
     int ret = freenect_init(&ctx, 0);
     if(ret < 0)
         return 1;
@@ -387,7 +493,7 @@ int main(int argc, char* argv[])
         return 2;
     }
     printf("got device\n");
-    static timeval timeout = { 1, 0 };
+/*    static timeval timeout = { 1, 0 };
 
     freenect_update_tilt_state(dev);
     freenect_process_events_timeout(ctx,&timeout);
@@ -409,11 +515,7 @@ int main(int argc, char* argv[])
 	printf("tilt[%d] accel[%lf,%lf,%lf]\n",state->tilt_angle, dx,dy,dz);
 	printf("tilt[%d] accel[%d,%d,%d]\n",state->tilt_angle, state->accelerometer_x,state->accelerometer_y,state->accelerometer_z);
 
-    //Freenect::FreenectAudio freenect;
-    //Freenect::FreenectDevice* device;
-	//device = &freenect.createDevice<Freenect::FreenectDevice>(0);
-
-/*	while( !n.hasParam("initialized") ){
+	while( !n.hasParam("initialized") ){
         ros::spinOnce();
     }
     bool b = false;
@@ -421,23 +523,25 @@ int main(int argc, char* argv[])
 	    n.param("initialized",b, false);
         ros::spinOnce();
     }
-    ros::Time time = ros::Time::now();
+*/
+    //ros::Time time = ros::Time::now();
     //Wait a duration of 5 second.
-    ros::Duration d = ros::Duration(5, 0);
-    d.sleep();
+    //ros::Duration d = ros::Duration(5, 0);
+    //d.sleep();
+    RosFreenectAudioNode auxnode;
 
 	pub_imu = n.advertise<sensor_msgs::Imu>("imu", 15);
 	pub_tilt_angle = n.advertise<std_msgs::Float64>("cur_tilt_angle", 15);
 	pub_tilt_status = n.advertise<std_msgs::UInt8>("cur_tilt_status", 15);
-
-	sub_tilt_angle = n.subscribe("tilt_angle", 1, setTiltAngle);
-	sub_led_option = n.subscribe("led_option", 1, setLedOption);
+    // Name the topic, message queue, callback function with class name, and object containing callback function.
+	sub_tilt_angle = n.subscribe("tilt_angle", 1, &RosFreenectAudioNode::setTiltAngle,&auxnode);
+	sub_led_option = n.subscribe("led_option", 1, &RosFreenectAudioNode::setLedOption,&auxnode);
 
 	while (ros::ok())
 	{
 		ros::spinOnce();
-		publishState();
+		auxnode.publishState();
 	}
-*/
+
 	return 0;
 }

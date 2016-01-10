@@ -5,6 +5,21 @@
 #include "freenect_internal.h"
 #include "loader.h"
 #include "usb_libusb10.h"
+
+
+// The kinect can tilt from +31 to -31 degrees in what looks like 1 degree increments
+// The control input looks like 2*desired_degrees
+#define MAX_TILT_ANGLE 31.
+#define MIN_TILT_ANGLE (-31.)
+
+ros::Publisher pub_imu;
+ros::Publisher pub_tilt_angle;
+ros::Publisher pub_tilt_status;
+
+ros::Subscriber sub_tilt_angle;
+ros::Subscriber sub_led_option;
+
+
 /*
 typedef void (*fnusb_iso_cb)(freenect_device *dev, uint8_t *buf, int len);
 
