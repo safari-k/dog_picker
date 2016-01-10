@@ -367,7 +367,8 @@ void fn_log(freenect_context *ctx, freenect_loglevel level, const char *fmt, ...
 // in kinect 1473 the motor/accelerometer is connected to the audio
 class RosFreenectAudioNode {
   public:
-    RosFreenectAudioNode() {
+    RosFreenectAudioNode(ros::NodeHandle* n) {
+        _n = n;
         timeout = { 1, 0 };
 
         int ret = freenect_init(&ctx, 0);
@@ -384,6 +385,14 @@ class RosFreenectAudioNode {
             libusb_exit(0);
         }
         ROS_INFO("Got device\n");
+
+        pub_imu = n->advertise<sensor_msgs::Imu>("imu", 15);
+        pub_tilt_angle = _n->advertise<std_msgs::Float64>("cur_tilt_angle", 15);
+        pub_tilt_status = _n->advertise<std_msgs::UInt8>("cur_tilt_status", 15);
+        // Name the topic, message queue, callback function with class name, and object containing callback function.
+        sub_tilt_angle = _n->subscribe("tilt_angle", 1, &RosFreenectAudioNode::setTiltAngle, this);
+        sub_led_option = _n->subscribe("led_option", 1, &RosFreenectAudioNode::setLedOption, this);
+
     }
     ~RosFreenectAudioNode(){
         libusb_exit(0);
@@ -467,12 +476,20 @@ class RosFreenectAudioNode {
     freenect_tilt_status_code m_code;
     freenect_raw_tilt_state *state;
     timeval timeout;
+
+    ros::Publisher pub_imu;
+    ros::Publisher pub_tilt_angle;
+    ros::Publisher pub_tilt_status;
+
+    ros::Subscriber sub_tilt_angle;
+    ros::Subscriber sub_led_option;
+    ros::NodeHandle* _n;
 };
 
 int main(int argc, char* argv[])
 {
 
-	ros::init(argc, argv, "kinect_aux_1473");
+	ros::init(argc, argv, "~");
 	ros::NodeHandle n;
 
 /*    freenect_context *ctx;
@@ -528,14 +545,9 @@ int main(int argc, char* argv[])
     //Wait a duration of 5 second.
     //ros::Duration d = ros::Duration(5, 0);
     //d.sleep();
-    RosFreenectAudioNode auxnode;
+    RosFreenectAudioNode auxnode(&n);
 
-	pub_imu = n.advertise<sensor_msgs::Imu>("imu", 15);
-	pub_tilt_angle = n.advertise<std_msgs::Float64>("cur_tilt_angle", 15);
-	pub_tilt_status = n.advertise<std_msgs::UInt8>("cur_tilt_status", 15);
-    // Name the topic, message queue, callback function with class name, and object containing callback function.
-	sub_tilt_angle = n.subscribe("tilt_angle", 1, &RosFreenectAudioNode::setTiltAngle,&auxnode);
-	sub_led_option = n.subscribe("led_option", 1, &RosFreenectAudioNode::setLedOption,&auxnode);
+
 
 	while (ros::ok())
 	{

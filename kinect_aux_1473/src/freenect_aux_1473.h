@@ -12,12 +12,6 @@
 #define MAX_TILT_ANGLE 31.
 #define MIN_TILT_ANGLE (-31.)
 
-ros::Publisher pub_imu;
-ros::Publisher pub_tilt_angle;
-ros::Publisher pub_tilt_status;
-
-ros::Subscriber sub_tilt_angle;
-ros::Subscriber sub_led_option;
 
 
 /*
