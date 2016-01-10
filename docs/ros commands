@@ -43,6 +43,8 @@ roslaunch dog_vision openni_node.launch
 
 roslaunch dog_vision face_tracker_kinect.launch
 
+#kinect motor and accelerometer
+roslaunch kinect_aux_1473 freenect_aux_1473.launch
 
 #run robot with moveit
 roslaunch dog_picker_description dynamixels.launch
@@ -52,5 +54,6 @@ roslaunch dog_picker_description meta_dynamixels.launch
 
 roslaunch dog_picker_moveit move_group.launch
 roslaunch dog_picker_moveit moveit_rviz.launch
+
 
 
