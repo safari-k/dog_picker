@@ -55,5 +55,18 @@ roslaunch dog_picker_description meta_dynamixels.launch
 roslaunch dog_picker_moveit move_group.launch
 roslaunch dog_picker_moveit moveit_rviz.launch
 
+# docker version
+# outside of docker
+sudo docker run -it
+--net="host" # map external ros port with internal one
+ros:indigo-ros-core # image name
+
+# within docker
+sudo easy_install pip
+sudo pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp27-none-linux_x86_64.whl
+atp-get update
+atp-get install ros-indigo-
+
+
 
 
